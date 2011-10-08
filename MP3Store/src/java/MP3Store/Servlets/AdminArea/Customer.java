@@ -115,8 +115,33 @@ for (CustomerStore i : allCustsList)
             }
             else
             {
-                // TODO: Editing functionality
-            }
+                // TODO: Secure the editing functionality
+                      if (request.getParameter("CustomerID") != null && request.getParameter("Title") != null && request.getParameter("Forename") != null && request.getParameter("Surname") != null && request.getParameter("Adddress") != null && request.getParameter("Email") != null && request.getParameter("Password") != null)
+      {
+      CustomerConnector myCustConn = new CustomerConnector();
+      CustomerStore editedCustomer = new CustomerStore();
+      editedCustomer.setCustomerID(Integer.parseInt(request.getParameter("CustomerID")));
+      editedCustomer.setCustomerTitle(request.getParameter("Title"));
+      editedCustomer.setCustomerForename(request.getParameter("Forename"));
+      editedCustomer.setCustomerSurname(request.getParameter("Surname"));
+      editedCustomer.setCustomerAddress(request.getParameter("Adddress"));
+      editedCustomer.setCustomerEmail(request.getParameter("Email"));
+      editedCustomer.setPassword(request.getParameter("Password"));
+      editedCustomer.setMembershipType(Integer.parseInt(request.getParameter("MembershipType")));
+      
+      if (request.getParameter("Verified").equals("1"))
+      {
+      editedCustomer.setVerified(true);
+      }
+      else
+      {
+       editedCustomer.setVerified(false);
+      }
+      
+      myCustConn.updateCustomer(editedCustomer);
+      }
+            }      
+      
         }
                 }
         catch (Exception e)

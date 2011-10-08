@@ -75,7 +75,7 @@ public class CustomerConnector {
 
 // Execute an SQL non-query, dont get a result set. Note used of prepared, paramaterised statement here
 
-            String qryString = "UPDATE Customer SET CustomerForename=?,CustomerSurname=?,CustomerTitle=?,CustomerEmail=?,CustomerAddress=?,Verified=?,MembershipType=?,Password=?";
+            String qryString = "UPDATE Customer SET CustomerForename=?,CustomerSurname=?,CustomerTitle=?,CustomerEmail=?,CustomerAddress=?,Verified=?,MembershipType=?,Password=? WHERE CustomerID=?";
             stmt = getCon().prepareStatement(qryString);
 			stmt.setString(1,newCustomer.getCustomerForename());
 			stmt.setString(2,newCustomer.getCustomerSurname());
@@ -85,6 +85,7 @@ public class CustomerConnector {
 			stmt.setBoolean(6,newCustomer.getVerified());
 			stmt.setInt(7,newCustomer.getMembershipType());
 			stmt.setString(8,newCustomer.getPassword());
+                        stmt.setInt(9,newCustomer.getCustomerID());
             stmt.executeUpdate();
         } catch (SQLException e) {
             // Handle errors with the connection
