@@ -43,6 +43,7 @@
                 out.println("<input type=\"hidden\" name=\"Mode\" value=\"POST\">");
                 out.println("<input type=\"submit\" value=\"Edit Customer\" />");
                 out.println("</form>");
+                out.println("<form name=\"delete\" action=\"/MP3Store/admin/Customer\" method=\"POST\"><input type=\"hidden\" name=\"CustomerID\" value=\"" + myCust.getCustomerID()  +"\"><input type=\"hidden\" name=\"Mode\" value=\"DELETE\"><input type=\"submit\" value=\"Delete Customer\" /></form>");
             } else {
                 out.println("<b>Please supply the CustomerID to edit!");
             }
