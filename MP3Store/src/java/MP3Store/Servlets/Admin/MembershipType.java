@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates and open the template in
  * the editor.
  */
-package MP3Store.Servlets.AdminArea;
+package MP3Store.Servlets.Admin;
 
 import MP3Store.Connectors.MembershipTypeConnector;
 import MP3Store.Models.MembershipTypeStore;
@@ -98,6 +98,7 @@ public class MembershipType extends HttpServlet {
             } else {
                 out.println("<h3>Please <a href=\"/MP3Store/admin/index.jsp\">Login!</a></h3>");
             }
+            
         } catch (Exception e) {
             out.println("<h3>Sorry, there was an error!</h3>");
             System.out.println("Exception in doGet()" + e.toString());
@@ -126,6 +127,13 @@ public class MembershipType extends HttpServlet {
             out.println("<title>MP3Store Admin Area -MembershipTypes</title>");
             out.println("</head>");
             out.println("<body>");
+            
+                        // Verify user
+            HttpSession session = request.getSession();
+
+            if (session.getAttribute("Username") != null) {
+                if (AdminLoginHelper.verifyUsername(session.getAttribute("Username").toString())) {
+                   
             out.println("<h1>MP3Store Admin Area - MembershipType Servlet at: " + request.getContextPath() + "</h1>");
 
             if (request.getParameter("Mode") != null) {
@@ -175,7 +183,13 @@ public class MembershipType extends HttpServlet {
 
             }
             out.println("<u><b><a href=\"/MP3Store/admin/index.jsp\">Back to Administration Homepage</a></b></u>");
-        } catch (Exception e) {
+                        } else {
+                    out.println("<h3>Authentication Error!</h3>");
+                }
+            } else {
+                out.println("<h3>Please <a href=\"/MP3Store/admin/index.jsp\">Login!</a></h3>");
+            }
+                } catch (Exception e) {
             out.println("<h3>Sorry, there was an error!</h3>");
             System.out.println("Exception in doPost()" + e.toString());
         } finally {
@@ -204,6 +218,13 @@ public class MembershipType extends HttpServlet {
             out.println("<title>MP3Store Admin Area -MembershipTypes</title>");
             out.println("</head>");
             out.println("<body>");
+            
+                        // Verify user
+            HttpSession session = request.getSession();
+
+            if (session.getAttribute("Username") != null) {
+                if (AdminLoginHelper.verifyUsername(session.getAttribute("Username").toString())) {
+                    
             out.println("<h1>MP3Store Admin Area - MembershipType Servlet at: " + request.getContextPath() + "</h1>");
 
             MembershipTypeConnector myMembershipTypeConn = new MembershipTypeConnector();
@@ -241,6 +262,12 @@ public class MembershipType extends HttpServlet {
                 myMembershipTypeConn.insertMembershipType(tmpMembershipType);
                 out.println("<b>Membership Type Added!</b>");
             }
+                            } else {
+                    out.println("<h3>Authentication Error!</h3>");
+                }
+            } else {
+                out.println("<h3>Please <a href=\"/MP3Store/admin/index.jsp\">Login!</a></h3>");
+            }
         } catch (Exception e) {
             out.println("<h3>Sorry, there was an error!</h3>");
             System.out.println("Exception in doPut()" + e.toString());
@@ -269,12 +296,25 @@ public class MembershipType extends HttpServlet {
             out.println("<title>MP3Store Admin Area -MembershipTypes</title>");
             out.println("</head>");
             out.println("<body>");
+            
+                        // Verify user
+            HttpSession session = request.getSession();
+
+            if (session.getAttribute("Username") != null) {
+                if (AdminLoginHelper.verifyUsername(session.getAttribute("Username").toString())) {
+                    
             out.println("<h1>MP3Store Admin Area - MembershipType Servlet at: " + request.getContextPath() + "</h1>");
 
             MembershipTypeConnector myMembershipTypeConn = new MembershipTypeConnector();
             if (request.getParameter("MembershipTypeID") != null) {
                 myMembershipTypeConn.deleteMembershipType(Integer.parseInt(request.getParameter("MembershipTypeID")));
                 out.println("<b>Membership Type Deleted!</b>");
+            }
+                            } else {
+                    out.println("<h3>Authentication Error!</h3>");
+                }
+            } else {
+                out.println("<h3>Please <a href=\"/MP3Store/admin/index.jsp\">Login!</a></h3>");
             }
         } catch (Exception e) {
             out.println("<h3>Sorry, there was an error!</h3>");

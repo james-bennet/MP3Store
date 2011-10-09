@@ -10,15 +10,12 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>MP3Store Admin Area - Add a customer</title>
+        <title>MP3Store Customer Area - Register</title>
     </head>
     <body>
-        <%
-            if (session.getAttribute("Username") != null) {
-                if (AdminLoginHelper.verifyUsername(session.getAttribute("Username").toString())) {
-        %>
-        <h1>MP3Store Admin Area- Add a customer</h1>
-        <form name="addCustomer" action="/MP3Store/admin/Customer" method="POST">
+        <%--  TODO: DANGER! - VALIDATION! --%>
+        <h1>MP3Store Customer Area - Register</h1>
+        <form name="addCustomer" action="/MP3Store/frontend/Customer" method="POST">
             Customer ID (Username): <input type="text" name="Username"><br />
             Title: <input type="text" name="Title"><br />
             Forename: <input type="text" name="Forename" /><br />
@@ -27,13 +24,7 @@
             Email Address: <input type="text" name="Email" /><br />
             Password: <input type="password" name="Password" /><br />
             <input type="hidden" name="Mode" value="PUT">
-            <input type="submit" value="Add New Customer" />
+            <input type="submit" value="Register" />
         </form> 
     </body> 
-    <%                }
-        } else {
-            out.println("<h3>You must be logged in as an Administrator in order to access this area!</h3>");
-        }
-            out.println("<u><b><a href=\"/MP3Store/admin/index.jsp\">Back to Administration Homepage</a></b></u>");
-    %>
 </html>

@@ -11,7 +11,7 @@ public class TransactionStore implements Serializable {
     private Date transactionDate;
     private static final long serialVersionUID = 1L;
     private Integer transactionID;
-    private int customerID;
+    private int Username;
     private int paymentRef;
 
     public TransactionStore() {
@@ -21,9 +21,9 @@ public class TransactionStore implements Serializable {
         this.transactionID = transactionID;
     }
 
-    public TransactionStore(Integer transactionID, int customerID, int paymentRef, Date transactionDate) {
+    public TransactionStore(Integer transactionID, int Username, int paymentRef, Date transactionDate) {
         this.transactionID = transactionID;
-        this.customerID = customerID;
+        this.Username = Username;
         this.paymentRef = paymentRef;
         this.transactionDate = transactionDate;
     }
@@ -36,12 +36,12 @@ public class TransactionStore implements Serializable {
         this.transactionID = transactionID;
     }
 
-    public int getCustomerID() {
-        return customerID;
+    public int getUsername() {
+        return Username;
     }
 
-    public void setCustomerID(int customerID) {
-        this.customerID = customerID;
+    public void setUsername(int Username) {
+        this.Username = Username;
     }
 
     public int getPaymentRef() {

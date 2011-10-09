@@ -9,7 +9,7 @@ import java.io.Serializable;
 public class CustomerStore implements Serializable {
     private String customerSince;
     private static final long serialVersionUID = 1L;
-    private Integer customerID;
+    private String Username;
     private String customerForename;
     private String customerSurname;
     private String customerTitle;
@@ -25,7 +25,7 @@ public class CustomerStore implements Serializable {
     
     public void setDefaults()
     {
-        this.customerID = null; //?
+        this.Username = null; //?
         this.customerForename = "John";
         this.customerSurname = "Smith";
         this.customerTitle = "Mr.";
@@ -37,9 +37,9 @@ public class CustomerStore implements Serializable {
         this.password = "password";
     }
 
-    public CustomerStore(Integer customerID) {
+    public CustomerStore(String Username) {
         setDefaults();
-        this.customerID = customerID;
+        this.Username = Username;
 
     }
     
@@ -67,8 +67,8 @@ public class CustomerStore implements Serializable {
         return success;
     }
 
-    public CustomerStore(Integer customerID, String customerForename, String customerSurname, String customerTitle, String customerEmail, String customerAddress, String customerSince, boolean verified, int membershipType, String password) {
-        this.customerID = customerID;
+    public CustomerStore(String Username, String customerForename, String customerSurname, String customerTitle, String customerEmail, String customerAddress, String customerSince, boolean verified, int membershipType, String password) {
+        this.Username = Username;
         this.customerForename = customerForename;
         this.customerSurname = customerSurname;
         this.customerTitle = customerTitle;
@@ -80,12 +80,12 @@ public class CustomerStore implements Serializable {
         this.password = password;
     }
 
-    public Integer getCustomerID() {
-        return customerID;
+    public String getUsername() {
+        return Username;
     }
 
-    public void setCustomerID(Integer customerID) {
-        this.customerID = customerID;
+    public void setUsername(String Username) {
+        this.Username = Username;
     }
 
     public String getCustomerForename() {
@@ -155,7 +155,7 @@ public class CustomerStore implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (customerID != null ? customerID.hashCode() : 0);
+        hash += (Username != null ? Username.hashCode() : 0);
         return hash;
     }
 
@@ -165,7 +165,7 @@ public class CustomerStore implements Serializable {
             return false;
         }
         CustomerStore other = (CustomerStore) object;
-        if ((this.customerID == null && other.customerID != null) || (this.customerID != null && !this.customerID.equals(other.customerID))) {
+        if ((this.Username == null && other.Username != null) || (this.Username != null && !this.Username.equals(other.Username))) {
             return false;
         }
         return true;
@@ -173,7 +173,7 @@ public class CustomerStore implements Serializable {
 
     @Override
     public String toString() {
-        return "MP3Store.Customer[ customerID=" + customerID + " ]";
+        return "MP3Store.Customer[ Username=" + Username + " ]";
     }
 
     public String getCustomerSince() {

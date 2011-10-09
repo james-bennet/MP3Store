@@ -1,6 +1,7 @@
 package MP3Store.Connectors;
 
 import MP3Store.Models.MembershipTypeStore;
+import MP3Store.Util.DatabaseInformationStore;
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -28,10 +29,9 @@ public final class MembershipTypeConnector {
                 Class.forName("com.mysql.jdbc.Driver");
 // Get a connection to the database - Might throw an SQLException if i.e unreachable
                 tmpCon =
-                        // NOTE zeroDateTimeBehavior=convertToNull!
-                        DriverManager.getConnection("jdbc:mysql://localhost:3306/mp3_store?zeroDateTimeBehavior=convertToNull",
-                        "mp3_store",
-                        "password");
+                        DriverManager.getConnection(DatabaseInformationStore.getConnectionString(),
+                        DatabaseInformationStore.getDbUser(),
+                        DatabaseInformationStore.getDbPass());
             } catch (ClassNotFoundException e) {
 // Handle an error loading the database driver
                 System.out.println("Couldn't load database driver: "

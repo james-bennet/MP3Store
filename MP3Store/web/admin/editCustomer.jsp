@@ -23,10 +23,10 @@
 
         <%
                     CustomerStore myCust = new CustomerStore();
-                    if (request.getParameter("CustomerID") != null) {
+                    if (request.getParameter("Username") != null) {
                         CustomerConnector myCustConn = new CustomerConnector();
-                        myCust = myCustConn.getCustomer(Integer.parseInt(request.getParameter("CustomerID")));
-                        out.println("<u><b>Customer #</b>" + myCust.getCustomerID() + "</u><br />");
+                        myCust = myCustConn.getCustomer(request.getParameter("Username"));
+                        out.println("<u><b>Customer #</b>" + myCust.getUsername() + "</u><br />");
                         out.println("<b>" + myCust.getCustomerTitle() + " " + myCust.getCustomerForename() + " " + myCust.getCustomerSurname() + "</b><br />");
 
                         out.println("<form name=\"editCustomer\" action=\"/MP3Store/admin/Customer\" method=\"POST\">");
@@ -44,13 +44,13 @@
                             out.println("checked=\"yes\"");
                         }
                         out.println("/><br />");
-                        out.println("<input type=\"hidden\" name=\"CustomerID\" value=\"" + myCust.getCustomerID() + "\">");
+                        out.println("<input type=\"hidden\" name=\"Username\" value=\"" + myCust.getUsername() + "\">");
                         out.println("<input type=\"hidden\" name=\"Mode\" value=\"POST\">");
                         out.println("<input type=\"submit\" value=\"Edit Customer\" />");
                         out.println("</form>");
-                        out.println("<form name=\"delete\" action=\"/MP3Store/admin/Customer\" method=\"POST\"><input type=\"hidden\" name=\"CustomerID\" value=\"" + myCust.getCustomerID() + "\"><input type=\"hidden\" name=\"Mode\" value=\"DELETE\"><input type=\"submit\" value=\"Delete Customer\" /></form>");
+                        out.println("<form name=\"delete\" action=\"/MP3Store/admin/Customer\" method=\"POST\"><input type=\"hidden\" name=\"Username\" value=\"" + myCust.getUsername() + "\"><input type=\"hidden\" name=\"Mode\" value=\"DELETE\"><input type=\"submit\" value=\"Delete Customer\" /></form>");
                     } else {
-                        out.println("<b>Please supply the CustomerID to edit!");
+                        out.println("<b>Please supply the Username to edit!");
                     }
                 }
             } else {

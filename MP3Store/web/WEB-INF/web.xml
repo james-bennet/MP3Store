@@ -1,27 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
     <servlet>
-        <servlet-name>Customer</servlet-name>
-        <servlet-class>MP3Store.Servlets.AdminArea.Customer</servlet-class>
-            </servlet>
-                <servlet>
-        <servlet-name>Genre</servlet-name>
-        <servlet-class>MP3Store.Servlets.AdminArea.Genre</servlet-class>
+        <servlet-name>Customer1</servlet-name>
+        <servlet-class>MP3Store.Servlets.Admin.Customer</servlet-class>
     </servlet>
-                    <servlet>
+        <servlet>
+        <servlet-name>Customer2</servlet-name>
+        <servlet-class>MP3Store.Servlets.Frontend.Customer</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Genre</servlet-name>
+        <servlet-class>MP3Store.Servlets.Admin.Genre</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>MembershipType</servlet-name>
-        <servlet-class>MP3Store.Servlets.AdminArea.MembershipType</servlet-class>
+        <servlet-class>MP3Store.Servlets.Admin.MembershipType</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>Customer</servlet-name>
+        <servlet-name>Customer1</servlet-name>
         <url-pattern>/admin/Customer</url-pattern>
-            </servlet-mapping>
-                <servlet-mapping>
-         <servlet-name>Genre</servlet-name>
+    </servlet-mapping>
+        <servlet-mapping>
+        <servlet-name>Customer2</servlet-name>
+        <url-pattern>/frontend/Customer</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Genre</servlet-name>
         <url-pattern>/admin/Genre</url-pattern>
     </servlet-mapping>
-                    <servlet-mapping>
-         <servlet-name>MembershipType</servlet-name>
+    <servlet-mapping>
+        <servlet-name>MembershipType</servlet-name>
         <url-pattern>/admin/MembershipType</url-pattern>
     </servlet-mapping>
     <session-config>

@@ -1,6 +1,7 @@
 package MP3Store.Connectors;
 
 import MP3Store.Models.CustomerStore;
+import MP3Store.Util.DatabaseInformationStore;
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -28,10 +29,9 @@ public final class CustomerConnector {
                 Class.forName("com.mysql.jdbc.Driver");
 // Get a connection to the database - Might throw an SQLException if i.e unreachable
                 tmpCon =
-                        // NOTE zeroDateTimeBehavior=convertToNull!
-                        DriverManager.getConnection("jdbc:mysql://localhost:3306/mp3_store?zeroDateTimeBehavior=convertToNull",
-                        "mp3_store",
-                        "password");
+                        DriverManager.getConnection(DatabaseInformationStore.getConnectionString(),
+                        DatabaseInformationStore.getDbUser(),
+                        DatabaseInformationStore.getDbPass());
             } catch (ClassNotFoundException e) {
 // Handle an error loading the database driver
                 System.out.println("Couldn't load database driver: "
@@ -76,7 +76,7 @@ public final class CustomerConnector {
 
 // Execute an SQL non-query, dont get a result set. Note used of prepared, paramaterised statement here
 
-            String qryString = "UPDATE Customer SET CustomerForename=?,CustomerSurname=?,CustomerTitle=?,CustomerEmail=?,CustomerAddress=?,Verified=?,MembershipType=?,Password=? WHERE CustomerID=?";
+            String qryString = "UPDATE Customer SET CustomerForename=?,CustomerSurname=?,CustomerTitle=?,CustomerEmail=?,CustomerAddress=?,Verified=?,MembershipType=?,Password=? WHERE Username=?";
             stmt = getCon().prepareStatement(qryString);
             stmt.setString(1, newCustomer.getCustomerForename());
             stmt.setString(2, newCustomer.getCustomerSurname());
@@ -86,7 +86,7 @@ public final class CustomerConnector {
             stmt.setBoolean(6, newCustomer.getVerified());
             stmt.setInt(7, newCustomer.getMembershipType());
             stmt.setString(8, newCustomer.getPassword());
-            stmt.setInt(9, newCustomer.getCustomerID());
+            stmt.setString(9, newCustomer.getUsername());
             stmt.executeUpdate();
         } catch (SQLException e) {
             // Handle errors with the connection
@@ -116,7 +116,7 @@ public final class CustomerConnector {
 
 // Execute an SQL query to show all Customers, giving us a ResultSet.
 
-            String qryString = "SELECT CustomerID,CustomerForename,CustomerSurname,CustomerTitle,CustomerEmail,CustomerAddress,CustomerSince,Verified,MembershipType,Password FROM Customer";
+            String qryString = "SELECT Username,CustomerForename,CustomerSurname,CustomerTitle,CustomerEmail,CustomerAddress,CustomerSince,Verified,MembershipType,Password FROM Customer";
             stmt = getCon().prepareStatement(qryString);
 
             rs =
@@ -124,7 +124,7 @@ public final class CustomerConnector {
             while (rs.next()) {
                 CustomerStore tmpCustomer = new CustomerStore();
 
-                tmpCustomer.setCustomerID(rs.getInt("CustomerID"));
+                tmpCustomer.setUsername(rs.getString("Username"));
                 tmpCustomer.setCustomerForename(rs.getString("CustomerForename"));
                 tmpCustomer.setCustomerSurname(rs.getString("CustomerSurname"));
                 tmpCustomer.setCustomerTitle(rs.getString("CustomerTitle"));
@@ -152,7 +152,7 @@ public final class CustomerConnector {
         return foundCustomer;
     }
 
-    public CustomerStore getCustomer(int CustomerID) {
+    public CustomerStore getCustomer(String Username) {
         CustomerStore foundCustomer = new CustomerStore();
 
         PreparedStatement stmt =
@@ -167,16 +167,16 @@ public final class CustomerConnector {
                 con = connectToDB();
             }
                         
-            String qryString = "SELECT CustomerID,CustomerForename,CustomerSurname,CustomerTitle,CustomerEmail,CustomerAddress,CustomerSince,Verified,MembershipType,Password FROM Customer WHERE CustomerID = ?";
+            String qryString = "SELECT Username,CustomerForename,CustomerSurname,CustomerTitle,CustomerEmail,CustomerAddress,CustomerSince,Verified,MembershipType,Password FROM Customer WHERE Username = ?";
             stmt = getCon().prepareStatement(qryString);
-            stmt.setInt(1, CustomerID);
+            stmt.setString(1, Username);
 
             // TODO: test
             rs =
                     stmt.executeQuery();
             rs.first();
 
-            foundCustomer.setCustomerID(rs.getInt("CustomerID"));
+            foundCustomer.setUsername(rs.getString("Username"));
             foundCustomer.setCustomerForename(rs.getString("CustomerForename"));
             foundCustomer.setCustomerSurname(rs.getString("CustomerSurname"));
             foundCustomer.setCustomerTitle(rs.getString("CustomerTitle"));
@@ -216,11 +216,11 @@ public final class CustomerConnector {
 
             // Execute an SQL non-query, dont get a result set
 
-            String qryString = "INSERT INTO Customer (CustomerID,CustomerForename,CustomerSurname,CustomerTitle,CustomerEmail,CustomerAddress,CustomerSince,Verified,MembershipType,Password)"
+            String qryString = "INSERT INTO Customer (Username,CustomerForename,CustomerSurname,CustomerTitle,CustomerEmail,CustomerAddress,CustomerSince,Verified,MembershipType,Password)"
                     + " VALUES (?,?,?,?,?,?,?,?,?,?)";
 
             stmt = getCon().prepareStatement(qryString);
-            stmt.setNull(1, java.sql.Types.INTEGER);
+            stmt.setString(1, newCustomer.getUsername());
             stmt.setString(2, newCustomer.getCustomerForename());
             stmt.setString(3, newCustomer.getCustomerSurname());
             stmt.setString(4, newCustomer.getCustomerTitle());
@@ -245,7 +245,7 @@ public final class CustomerConnector {
         return true;
     }
 
-    public boolean deleteCustomer(Integer CustomerID) {
+    public boolean deleteCustomer(Integer Username) {
 
         PreparedStatement stmt =
                 null;
@@ -259,9 +259,9 @@ public final class CustomerConnector {
 // The rest of the code for querying the db goes here.
 
             // Execute an SQL non-query, dont get a result set
-            String qryString = "DELETE FROM Customer WHERE CustomerID = ?";
+            String qryString = "DELETE FROM Customer WHERE Username = ?";
             stmt = getCon().prepareStatement(qryString);
-            stmt.setInt(1, CustomerID);
+            stmt.setInt(1, Username);
             stmt.executeUpdate();
 
         } catch (SQLException e) {

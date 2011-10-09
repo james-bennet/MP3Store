@@ -13,6 +13,9 @@
     </head>
     <body>
         <h1>Welcome to MP3Store!</h1>
-        <u><b><a href="/MP3Store/admin/index.jsp">Admin Area</a></b></u>
+        <ol>
+            <li><u><b><a href="/MP3Store/frontend/index.jsp">Customer Area</a></b></u></li>
+        <li><u><b><a href="/MP3Store/admin/index.jsp">Admin Area</a></b></u></li>
+        </ol>
     </body>
 </html>

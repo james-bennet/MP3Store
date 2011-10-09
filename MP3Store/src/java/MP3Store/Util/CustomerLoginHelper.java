@@ -10,7 +10,7 @@ import java.sql.*;
  *
  * @author james
  */
-public class AdminLoginHelper {
+public class CustomerLoginHelper {
 
     public static Connection connectToDB() {
         Connection tmpCon = null;
@@ -53,7 +53,7 @@ public class AdminLoginHelper {
         return true;
     }
 
-    public static boolean verifyPassword(String username, String password) {
+    public static boolean verifyPassword(String Username, String password) {
         Connection con =
                 connectToDB();
         PreparedStatement stmt =
@@ -61,9 +61,9 @@ public class AdminLoginHelper {
         ResultSet rs =
                 null;
         try {
-            String qryString = "SELECT Username,Password FROM AdminLogin WHERE Username = ? AND Password = ?";
+            String qryString = "SELECT Username,Password FROM Customer WHERE Username = ? AND Password = ?";
             stmt = con.prepareStatement(qryString);
-            stmt.setString(1, username);
+            stmt.setString(1, Username);
             stmt.setString(2, password);
 
             // TODO: test
@@ -71,9 +71,9 @@ public class AdminLoginHelper {
                     stmt.executeQuery();
             rs.first();
 
-            // User exists, and correct username / password combo
+            // User exists, and correct Username / password combo
             if (rs.getString("Username") != null && rs.getString("Password") != null) {
-                if (rs.getString("Username").equalsIgnoreCase(username) && rs.getString("Password").equals(password)) {
+                if (rs.getString("Username").equalsIgnoreCase(Username) && rs.getString("Password").equals(password)) {
                     return true;
                 }
             } else {
@@ -84,7 +84,6 @@ public class AdminLoginHelper {
             // Handle errors with the connection
             System.out.println("SQLException caught: "
                     + e.getMessage());
-            // Get any further (more detailed) exceptions
             return false;
         } finally {
 // Always close the database Connection to release the database resources immediately.
@@ -93,7 +92,7 @@ public class AdminLoginHelper {
         return false;
     }
 
-    public static boolean verifyUsername(String username) {
+    public static boolean verifyUsername(String Username) {
         Connection con =
                 connectToDB();
         PreparedStatement stmt =
@@ -101,18 +100,18 @@ public class AdminLoginHelper {
         ResultSet rs =
                 null;
         try {
-            String qryString = "SELECT Username,Password FROM AdminLogin WHERE Username = ?";
+            String qryString = "SELECT Username,Password FROM Customer WHERE Username = ?";
             stmt = con.prepareStatement(qryString);
-            stmt.setString(1, username);
+            stmt.setString(1, Username);
 
             // TODO: test
             rs =
                     stmt.executeQuery();
             rs.first();
 
-            // User exists, and correct username / password combo
+            // User exists, and correct Username / password combo
             if (rs.getString("Username") != null && rs.getString("Password") != null) {
-                if (rs.getString("Username").equalsIgnoreCase(username)) {
+                if (rs.getString("Username").equalsIgnoreCase(Username)) {
                     return true;
                 }
             } else {
@@ -123,7 +122,6 @@ public class AdminLoginHelper {
             // Handle errors with the connection
             System.out.println("SQLException caught: "
                     + e.getMessage());
-            // Get any further (more detailed) exceptions
             return false;
         } finally {
 // Always close the database Connection to release the database resources immediately.
