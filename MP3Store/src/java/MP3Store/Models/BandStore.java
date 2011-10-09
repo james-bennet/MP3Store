@@ -9,7 +9,7 @@ import java.io.Serializable;
 public class BandStore implements Serializable {
     private static final long serialVersionUID = 1L;
     private Integer bandID;
-    private int bandManager;
+    private String bandManager;
     private String bandName;
     private String bandDesc;
     private int bandGenre;
@@ -21,7 +21,7 @@ public class BandStore implements Serializable {
         this.bandID = bandID;
     }
 
-    public BandStore(Integer bandID, int bandManager, String bandName, String bandDesc, int bandGenre) {
+    public BandStore(Integer bandID, String bandManager, String bandName, String bandDesc, int bandGenre) {
         this.bandID = bandID;
         this.bandManager = bandManager;
         this.bandName = bandName;
@@ -37,11 +37,11 @@ public class BandStore implements Serializable {
         this.bandID = bandID;
     }
 
-    public int getBandManager() {
+    public String getBandManager() {
         return bandManager;
     }
 
-    public void setBandManager(int bandManager) {
+    public void setBandManager(String bandManager) {
         this.bandManager = bandManager;
     }
 
