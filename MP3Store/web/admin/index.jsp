@@ -1,6 +1,6 @@
 <%-- 
     Document   : index
-    Created on : 07-Oct-2011, 11:05:42
+    Created on : 09-Oct-2011, 10:44:14
     Author     : james
 --%>
 
@@ -9,10 +9,10 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>MP3Store - Homepage</title>
+        <title>MP3Store Admin Area</title>
     </head>
     <body>
-        <h1>Welcome to MP3Store!</h1>
-        <u><b><a href="/MP3Store/admin/index.jsp">Admin Area</a></b></u>
+        <h1>MP3Store Admin Area</h1>
+        <u><b><a href="/MP3Store/admin/Customer">Customer Administration</a></b></u>
     </body>
 </html>

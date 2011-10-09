@@ -8,47 +8,43 @@ import java.util.ArrayList;
  *
  * @author James
  */
-public class CustomerConnector {
-    
-            private Connection con =
-                null;
-            
-    public CustomerConnector()
-    {
+public final class CustomerConnector {
+
+    private Connection con =
+            null;
+
+    public CustomerConnector() {
         con = connectToDB();
     }
 
-    public Connection connectToDB() {
+    public final Connection connectToDB() {
         Connection tmpCon = null;
-        if (getCon() == null)
-        {
-        try {
+        if (getCon() == null) {
+            try {
 
-            // Main connection code here
-            // Load and register the database driver
+                // Main connection code here
+                // Load and register the database driver
 // Could throw a ClassNotFoundException if driver doesnt exist
-            Class.forName("com.mysql.jdbc.Driver");
+                Class.forName("com.mysql.jdbc.Driver");
 // Get a connection to the database - Might throw an SQLException if i.e unreachable
-            tmpCon =
-                    // NOTE zeroDateTimeBehavior=convertToNull!
-                    DriverManager.getConnection("jdbc:mysql://localhost:3306/mp3_store?zeroDateTimeBehavior=convertToNull",
-                    "mp3_store",
-                    "password");
-        } catch (ClassNotFoundException e) {
+                tmpCon =
+                        // NOTE zeroDateTimeBehavior=convertToNull!
+                        DriverManager.getConnection("jdbc:mysql://localhost:3306/mp3_store?zeroDateTimeBehavior=convertToNull",
+                        "mp3_store",
+                        "password");
+            } catch (ClassNotFoundException e) {
 // Handle an error loading the database driver
-            System.out.println("Couldn't load database driver: "
-                    + e.getMessage());
-            return null;
-        } catch (SQLException e) {
-            // Handle errors with the connection
-            System.out.println("SQLException caught: "
-                    + e.getMessage());
-            return null;
-        }
-        return tmpCon;
-        }
-        else
-        {
+                System.out.println("Couldn't load database driver: "
+                        + e.getMessage());
+                return null;
+            } catch (SQLException e) {
+                // Handle errors with the connection
+                System.out.println("SQLException caught: "
+                        + e.getMessage());
+                return null;
+            }
+            return tmpCon;
+        } else {
             return getCon(); // Alrady connected
         }
     }
@@ -67,7 +63,7 @@ public class CustomerConnector {
         return true;
     }
 
-        public boolean updateCustomer(CustomerStore newCustomer) {
+    public boolean updateCustomer(CustomerStore newCustomer) {
 
         PreparedStatement stmt =
                 null;
@@ -77,15 +73,15 @@ public class CustomerConnector {
 
             String qryString = "UPDATE Customer SET CustomerForename=?,CustomerSurname=?,CustomerTitle=?,CustomerEmail=?,CustomerAddress=?,Verified=?,MembershipType=?,Password=? WHERE CustomerID=?";
             stmt = getCon().prepareStatement(qryString);
-			stmt.setString(1,newCustomer.getCustomerForename());
-			stmt.setString(2,newCustomer.getCustomerSurname());
-			stmt.setString(3,newCustomer.getCustomerTitle());
-			stmt.setString(4,newCustomer.getCustomerEmail());
-			stmt.setString(5,newCustomer.getCustomerAddress());
-			stmt.setBoolean(6,newCustomer.getVerified());
-			stmt.setInt(7,newCustomer.getMembershipType());
-			stmt.setString(8,newCustomer.getPassword());
-                        stmt.setInt(9,newCustomer.getCustomerID());
+            stmt.setString(1, newCustomer.getCustomerForename());
+            stmt.setString(2, newCustomer.getCustomerSurname());
+            stmt.setString(3, newCustomer.getCustomerTitle());
+            stmt.setString(4, newCustomer.getCustomerEmail());
+            stmt.setString(5, newCustomer.getCustomerAddress());
+            stmt.setBoolean(6, newCustomer.getVerified());
+            stmt.setInt(7, newCustomer.getMembershipType());
+            stmt.setString(8, newCustomer.getPassword());
+            stmt.setInt(9, newCustomer.getCustomerID());
             stmt.executeUpdate();
         } catch (SQLException e) {
             // Handle errors with the connection
@@ -109,24 +105,24 @@ public class CustomerConnector {
         try {
 
 // Execute an SQL query to show all Customers, giving us a ResultSet.
-           
-            String qryString =  "SELECT CustomerID,CustomerForename,CustomerSurname,CustomerTitle,CustomerEmail,CustomerAddress,CustomerSince,Verified,MembershipType,Password FROM Customer";
-           stmt = getCon().prepareStatement(qryString);
-            
+
+            String qryString = "SELECT CustomerID,CustomerForename,CustomerSurname,CustomerTitle,CustomerEmail,CustomerAddress,CustomerSince,Verified,MembershipType,Password FROM Customer";
+            stmt = getCon().prepareStatement(qryString);
+
             rs =
                     stmt.executeQuery();
             while (rs.next()) {
                 CustomerStore tmpCustomer = new CustomerStore();
-                
-                tmpCustomer.setCustomerID(rs.getInt("CustomerID"));        
+
+                tmpCustomer.setCustomerID(rs.getInt("CustomerID"));
                 tmpCustomer.setCustomerForename(rs.getString("CustomerForename"));
                 tmpCustomer.setCustomerSurname(rs.getString("CustomerSurname"));
                 tmpCustomer.setCustomerTitle(rs.getString("CustomerTitle"));
-                tmpCustomer.setCustomerEmail(rs.getString("CustomerEmail"));               
+                tmpCustomer.setCustomerEmail(rs.getString("CustomerEmail"));
                 tmpCustomer.setCustomerAddress(rs.getString("CustomerAddress"));
                 tmpCustomer.setCustomerSince(rs.getString("CustomerSince"));
                 tmpCustomer.setVerified(rs.getBoolean("Verified"));
-                tmpCustomer.setMembershipType(rs.getInt("MembershipType"));              
+                tmpCustomer.setMembershipType(rs.getInt("MembershipType"));
                 tmpCustomer.setPassword(rs.getString("Password"));
 
                 // Add this Customer to list of returned Customers
@@ -146,7 +142,7 @@ public class CustomerConnector {
         return foundCustomer;
     }
 
-        public CustomerStore getCustomer(int CustomerID) {
+    public CustomerStore getCustomer(int CustomerID) {
         CustomerStore foundCustomer = new CustomerStore();
 
         PreparedStatement stmt =
@@ -155,26 +151,26 @@ public class CustomerConnector {
                 null;
         try {
 // Execute an SQL query to show a specific Customers, giving us a ResultSet. Note used of prepared, paramaterised statement here.
-           
-            String qryString =  "SELECT CustomerID,CustomerForename,CustomerSurname,CustomerTitle,CustomerEmail,CustomerAddress,CustomerSince,Verified,MembershipType,Password FROM Customer WHERE CustomerID = ?"; 
-           stmt = getCon().prepareStatement(qryString);
-           		  stmt.setInt(1,CustomerID);   
-            
-			// TODO: test
+
+            String qryString = "SELECT CustomerID,CustomerForename,CustomerSurname,CustomerTitle,CustomerEmail,CustomerAddress,CustomerSince,Verified,MembershipType,Password FROM Customer WHERE CustomerID = ?";
+            stmt = getCon().prepareStatement(qryString);
+            stmt.setInt(1, CustomerID);
+
+            // TODO: test
             rs =
                     stmt.executeQuery();
-                rs.first();
-                
-                foundCustomer.setCustomerID(rs.getInt("CustomerID"));        
-                foundCustomer.setCustomerForename(rs.getString("CustomerForename"));
-                foundCustomer.setCustomerSurname(rs.getString("CustomerSurname"));
-                foundCustomer.setCustomerTitle(rs.getString("CustomerTitle"));
-                foundCustomer.setCustomerEmail(rs.getString("CustomerEmail"));               
-                foundCustomer.setCustomerAddress(rs.getString("CustomerAddress"));
-                foundCustomer.setCustomerSince(rs.getString("CustomerSince"));
-                foundCustomer.setVerified(rs.getBoolean("Verified"));
-                foundCustomer.setMembershipType(rs.getInt("MembershipType"));              
-                foundCustomer.setPassword(rs.getString("Password"));
+            rs.first();
+
+            foundCustomer.setCustomerID(rs.getInt("CustomerID"));
+            foundCustomer.setCustomerForename(rs.getString("CustomerForename"));
+            foundCustomer.setCustomerSurname(rs.getString("CustomerSurname"));
+            foundCustomer.setCustomerTitle(rs.getString("CustomerTitle"));
+            foundCustomer.setCustomerEmail(rs.getString("CustomerEmail"));
+            foundCustomer.setCustomerAddress(rs.getString("CustomerAddress"));
+            foundCustomer.setCustomerSince(rs.getString("CustomerSince"));
+            foundCustomer.setVerified(rs.getBoolean("Verified"));
+            foundCustomer.setMembershipType(rs.getInt("MembershipType"));
+            foundCustomer.setPassword(rs.getString("Password"));
 
         } catch (SQLException e) {
             // Handle errors with the connection
@@ -187,9 +183,9 @@ public class CustomerConnector {
             disconnectFromDB(getCon()); // Use helper method
         }
 
-               return foundCustomer;
+        return foundCustomer;
     }
-        
+
     public boolean insertCustomer(CustomerStore newCustomer) {
 
         PreparedStatement stmt =
@@ -199,23 +195,23 @@ public class CustomerConnector {
 // The rest of the code for querying the db goeTests here.
 
             // Execute an SQL non-query, dont get a result set
-				
+
             String qryString = "INSERT INTO Customer (CustomerID,CustomerForename,CustomerSurname,CustomerTitle,CustomerEmail,CustomerAddress,CustomerSince,Verified,MembershipType,Password)"
                     + " VALUES (?,?,?,?,?,?,?,?,?,?)";
-					
-           stmt = getCon().prepareStatement(qryString);      
-                        stmt.setNull(1, java.sql.Types.INTEGER);
-			stmt.setString(2,newCustomer.getCustomerForename());
-			stmt.setString(3,newCustomer.getCustomerSurname());
-			stmt.setString(4,newCustomer.getCustomerTitle());
-			stmt.setString(5,newCustomer.getCustomerEmail());
-			stmt.setString(6,newCustomer.getCustomerAddress());
-                        stmt.setNull(7, java.sql.Types.TIMESTAMP);
-			stmt.setBoolean(8,newCustomer.getVerified());
-			stmt.setInt(9,newCustomer.getMembershipType());
-			stmt.setString(10,newCustomer.getPassword());	
-			
-stmt.executeUpdate();
+
+            stmt = getCon().prepareStatement(qryString);
+            stmt.setNull(1, java.sql.Types.INTEGER);
+            stmt.setString(2, newCustomer.getCustomerForename());
+            stmt.setString(3, newCustomer.getCustomerSurname());
+            stmt.setString(4, newCustomer.getCustomerTitle());
+            stmt.setString(5, newCustomer.getCustomerEmail());
+            stmt.setString(6, newCustomer.getCustomerAddress());
+            stmt.setNull(7, java.sql.Types.TIMESTAMP);
+            stmt.setBoolean(8, newCustomer.getVerified());
+            stmt.setInt(9, newCustomer.getMembershipType());
+            stmt.setString(10, newCustomer.getPassword());
+
+            stmt.executeUpdate();
 
         } catch (Exception e) {
             // Handle errors with the connection
@@ -237,12 +233,12 @@ stmt.executeUpdate();
 
 // The rest of the code for querying the db goes here.
 
-                        // Execute an SQL non-query, dont get a result set
+            // Execute an SQL non-query, dont get a result set
             String qryString = "DELETE FROM Customer WHERE CustomerID = ?";
-           stmt = getCon().prepareStatement(qryString);           
-           stmt.setInt(1,CustomerID);
-stmt.executeUpdate();
-            
+            stmt = getCon().prepareStatement(qryString);
+            stmt.setInt(1, CustomerID);
+            stmt.executeUpdate();
+
         } catch (SQLException e) {
             // Handle errors with the connection
             System.out.println("SQLException caught: "

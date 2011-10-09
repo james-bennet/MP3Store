@@ -28,7 +28,7 @@
                 out.println("Title: <input type=\"text\" name=\"Title\" value=\"" + myCust.getCustomerTitle() + "\"/><br />");
                 out.println("Forename: <input type=\"text\" name=\"Forename\" value=\"" + myCust.getCustomerForename() + "\"/><br />");
                 out.println("Surname: <input type=\"text\" name=\"Surname\" value=\"" + myCust.getCustomerSurname() + "\"/><br />");
-                out.println("Street Address:<br /><textarea rows=\"10\" cols=\"30\" name=\"Adddress\">" + myCust.getCustomerAddress() + "\"</textarea><br />");
+                out.println("Street Address:<br /><textarea rows=\"10\" cols=\"30\" name=\"Adddress\">" + myCust.getCustomerAddress() + "</textarea><br />");
                 out.println("Email Address: <input type=\"text\" name=\"Email\" value=\"" + myCust.getCustomerEmail() + "\"/><br />");
                 out.println("New Password: <input type=\"password\" name=\"Password\"\"/><br />");
                 // Fields below are TODO
