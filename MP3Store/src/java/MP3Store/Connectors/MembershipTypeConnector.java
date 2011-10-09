@@ -68,15 +68,14 @@ public final class MembershipTypeConnector {
         PreparedStatement stmt =
                 null;
         try {
-            
-                        if (con == null)
-            {
+
+            if (con == null) {
                 con = connectToDB();
             }
 
 // Execute an SQL non-query, dont get a result set. Note used of prepared, paramaterised statement here
 
-                String qryString = "UPDATE MembershipType SET MembershipName=?,MembershipTypeDesc=?,CanDownload=?,CanRedownload=?,CanUpload=?,CanDownloadUnlimited=? WHERE MembershipTypeID=?";
+            String qryString = "UPDATE MembershipType SET MembershipName=?,MembershipTypeDesc=?,CanDownload=?,CanRedownload=?,CanUpload=?,CanDownloadUnlimited=? WHERE MembershipTypeID=?";
             stmt = getCon().prepareStatement(qryString);
             stmt.setString(1, newMembershipType.getMembershipName());
             stmt.setString(2, newMembershipType.getMembershipTypeDesc());
@@ -106,15 +105,14 @@ public final class MembershipTypeConnector {
         ResultSet rs =
                 null;
         try {
-            
-                        if (con == null)
-            {
+
+            if (con == null) {
                 con = connectToDB();
             }
 
 // Execute an SQL query to show all MembershipTypes, giving us a ResultSet.
 
-            String qryString = "SELECT MembershipTypeID,MembershipTypeName,MembershipTypeDesc,CanDownload,CanRedownload,CanUpload,CanDownloadUnlimited FROM MembershipType";
+            String qryString = "SELECT MembershipTypeID,MembershipName,MembershipTypeDesc,CanDownload,CanRedownload,CanUpload,CanDownloadUnlimited FROM MembershipType";
             stmt = getCon().prepareStatement(qryString);
 
             rs =
@@ -123,13 +121,13 @@ public final class MembershipTypeConnector {
                 MembershipTypeStore tmpMembershipType = new MembershipTypeStore();
 
                 tmpMembershipType.setMembershipTypeID(rs.getInt("MembershipTypeID"));
-                tmpMembershipType.setMembershipName(rs.getString("MembershipTypeName"));
+                tmpMembershipType.setMembershipName(rs.getString("MembershipName"));
                 tmpMembershipType.setMembershipTypeDesc(rs.getString("MembershipTypeDesc"));
                 tmpMembershipType.setCanDownload(rs.getBoolean("CanDownload"));
                 tmpMembershipType.setCanRedownload(rs.getBoolean("CanRedownload"));
                 tmpMembershipType.setCanUpload(rs.getBoolean("CanUpload"));
                 tmpMembershipType.setCanDownloadUnlimited(rs.getBoolean("CanDownloadUnlimited"));
-                
+
                 // Add this MembershipType to list of returned MembershipTypes
                 foundMembershipType.add(tmpMembershipType);
             }
@@ -157,12 +155,11 @@ public final class MembershipTypeConnector {
         try {
 // Execute an SQL query to show a specific MembershipTypes, giving us a ResultSet. Note used of prepared, paramaterised statement here.
 
-                        if (con == null)
-            {
+            if (con == null) {
                 con = connectToDB();
             }
-                        
-            String qryString = "SELECT MembershipTypeID,MembershipTypeName,MembershipTypeDesc,CanDownload,CanRedownload,CanUpload,CanDownloadUnlimited FROM MembershipType WHERE MembershipTypeID = ?";
+
+            String qryString = "SELECT MembershipTypeID,MembershipName,MembershipTypeDesc,CanDownload,CanRedownload,CanUpload,CanDownloadUnlimited FROM MembershipType WHERE MembershipTypeID = ?";
             stmt = getCon().prepareStatement(qryString);
             stmt.setInt(1, MembershipTypeID);
 
@@ -170,14 +167,14 @@ public final class MembershipTypeConnector {
             rs =
                     stmt.executeQuery();
             rs.first();
-            
-                foundMembershipType.setMembershipTypeID(rs.getInt("MembershipTypeID"));
-                foundMembershipType.setMembershipName(rs.getString("MembershipTypeName"));
-                foundMembershipType.setMembershipTypeDesc(rs.getString("MembershipTypeDesc"));
-                foundMembershipType.setCanDownload(rs.getBoolean("CanDownload"));
-                foundMembershipType.setCanRedownload(rs.getBoolean("CanRedownload"));
-                foundMembershipType.setCanUpload(rs.getBoolean("CanUpload"));
-                foundMembershipType.setCanDownloadUnlimited(rs.getBoolean("CanDownloadUnlimited"));
+
+            foundMembershipType.setMembershipTypeID(rs.getInt("MembershipTypeID"));
+            foundMembershipType.setMembershipName(rs.getString("MembershipName"));
+            foundMembershipType.setMembershipTypeDesc(rs.getString("MembershipTypeDesc"));
+            foundMembershipType.setCanDownload(rs.getBoolean("CanDownload"));
+            foundMembershipType.setCanRedownload(rs.getBoolean("CanRedownload"));
+            foundMembershipType.setCanUpload(rs.getBoolean("CanUpload"));
+            foundMembershipType.setCanDownloadUnlimited(rs.getBoolean("CanDownloadUnlimited"));
 
         } catch (SQLException e) {
             // Handle errors with the connection
@@ -198,9 +195,8 @@ public final class MembershipTypeConnector {
         PreparedStatement stmt =
                 null;
         try {
-            
-                        if (con == null)
-            {
+
+            if (con == null) {
                 con = connectToDB();
             }
 
@@ -208,7 +204,7 @@ public final class MembershipTypeConnector {
 
             // Execute an SQL non-query, dont get a result set
 
-            String qryString = "INSERT INTO MembershipType (MembershipTypeID,MembershipTypeName,MembershipTypeDesc,CanDownload,CanRedownload,CanUpload,CanDownloadUnlimited)"
+            String qryString = "INSERT INTO MembershipType (MembershipTypeID,MembershipName,MembershipTypeDesc,CanDownload,CanRedownload,CanUpload,CanDownloadUnlimited)"
                     + " VALUES (?,?,?,?,?,?,?)";
 
             stmt = getCon().prepareStatement(qryString);
@@ -238,9 +234,8 @@ public final class MembershipTypeConnector {
         PreparedStatement stmt =
                 null;
         try {
-            
-                        if (con == null)
-            {
+
+            if (con == null) {
                 con = connectToDB();
             }
 

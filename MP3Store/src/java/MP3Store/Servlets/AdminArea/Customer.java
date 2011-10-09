@@ -52,7 +52,7 @@ public class Customer extends HttpServlet {
                 if (AdminLoginHelper.verifyUsername(session.getAttribute("Username").toString()))
                 {
             
-            out.println("<h1>MP3Store Admin Area - Customer Servlet at: " + request.getContextPath() + "</h1>");
+            out.println("<h1>MP3Store Admin Area - Customer Servlet</h1>");
 
             // Details for just one customer - TODO: Customer not found message
             if (request.getParameter("CustomerID") != null) {

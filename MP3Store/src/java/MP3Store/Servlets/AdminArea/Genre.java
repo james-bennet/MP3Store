@@ -52,7 +52,7 @@ public class Genre extends HttpServlet {
                 if (AdminLoginHelper.verifyUsername(session.getAttribute("Username").toString()))
                 {
 
-            out.println("<h1>MP3Store Admin Area - Genre Servlet at: " + request.getContextPath() + "</h1>");
+            out.println("<h1>MP3Store Admin Area - Genre Servlet</h1>");
 
             // Details for just one Genre - TODO: Genre not found message
             if (request.getParameter("GenreID") != null) {

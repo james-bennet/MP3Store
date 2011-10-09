@@ -8,6 +8,10 @@
         <servlet-name>Genre</servlet-name>
         <servlet-class>MP3Store.Servlets.AdminArea.Genre</servlet-class>
     </servlet>
+                    <servlet>
+        <servlet-name>MembershipType</servlet-name>
+        <servlet-class>MP3Store.Servlets.AdminArea.MembershipType</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Customer</servlet-name>
         <url-pattern>/admin/Customer</url-pattern>
@@ -15,6 +19,10 @@
                 <servlet-mapping>
          <servlet-name>Genre</servlet-name>
         <url-pattern>/admin/Genre</url-pattern>
+    </servlet-mapping>
+                    <servlet-mapping>
+         <servlet-name>MembershipType</servlet-name>
+        <url-pattern>/admin/MembershipType</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
