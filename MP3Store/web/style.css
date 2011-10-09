@@ -1,0 +1,167 @@
+<style type='text/css'>
+
+* {
+    margin:0;
+    padding:0
+}
+
+body
+{
+        background:#C0C0C0;
+        color:#565656;
+	font-family:sans-serif;
+	font-size:medium;
+	font-weight:400;
+        text-align:left
+}
+
+a
+{
+	font-family:sans-serif;
+	font-size:large;
+	font-weight:bolder;
+	text-decoration:underline;
+}
+
+a img {
+border:none
+}
+
+div
+{
+	border-style:solid;
+	border-width:thin;
+	font-family:sans-serif;
+	font-size:medium;
+	font-weight:400;
+	text-decoration:none
+}
+
+font-family:sans-serif; font-size:large; font-weight:lighter; text-decoration:line-through; a:hover
+{
+	font-family:sans-serif;
+	font-size:x-large;
+	font-weight:700;
+	text-decoration:underline
+}
+
+h1
+{
+	font-family:sans-serif;
+	font-size:xx-large;
+	font-weight:700;
+	text-decoration:underline
+}
+
+h2
+{
+	font-family:sans-serif;
+	font-size:x-large;
+	font-weight:underline
+}
+
+h3
+{
+	font-family:sans-serif;
+	font-size:large;
+	font-weight:700;
+	text-decoration:underline
+}
+
+input,select,option,textarea
+{
+	border-style:solid;
+	border-width:thin;
+	font-family:sans-serif;
+	font-size:medium
+}
+
+ol
+{
+	font-family:sans-serif;
+	font-size:medium;
+	list-style-type:decimal
+}
+
+p,pre
+{
+	font-family:sans-serif;
+	font-size:medium;
+	font-weight:400;
+	text-decoration:none
+}
+
+form {
+    background:#C0C0C0;
+    -moz-border-radius:10px;
+    -webkit-border-radius:10px;
+    border-radius:10px;
+    color:#565656;
+}
+
+input,textarea {
+    background:white;
+    opacity:0.5;
+    border:1px solid #ccc;
+    display:block;
+    font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size:20px;
+    min-height:30px;
+    width:300px
+        -webkit-border-radius:5px;
+    -moz-border-radius:5px;
+    border-radius:5px;
+
+    -webkit-transition: all 0.5s ease-in-out;
+    -moz-transition: all 0.5s ease-in-out;
+    transition: all 0.5s ease-in-out;
+}
+
+input[type=submit] {
+    padding:10px;
+    opacity:0.5;
+}
+
+input[type=text] {
+    background:white;
+    opacity:0.5;
+}
+
+input[type=password] {
+    background:white;
+}
+
+textarea {
+    min-height:200px;
+}
+input:focus, textarea:focus {
+    -webkit-box-shadow:0 0 25px #ccc;
+    -moz-box-shadow:0 0 25px #ccc;
+    box-shadow:0 0 25px #ccc;
+
+    -webkit-transform: scale(1.05);
+    -moz-transform: scale(1.05);
+    transform: scale(1.05);
+}
+
+*:focus{
+    outline:none; /* Prevents blue border in Webkit */
+}
+
+
+span
+{
+	border-style:solid;
+	border-width:thin;
+	font-family:sans-serif;
+	font-size:medium;
+	font-weight:400;
+	text-decoration:none
+}
+
+ul
+{
+	font-family:sans-serif;
+	font-size:medium;
+	list-style-type:circle
+}

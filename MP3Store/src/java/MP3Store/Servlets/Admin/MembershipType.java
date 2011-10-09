@@ -42,6 +42,7 @@ public class MembershipType extends HttpServlet {
             out.println("<html>");
             out.println("<head>");
             out.println("<title>MP3Store Admin Area -MembershipTypes</title>");
+                         out.println("<link rel=\"stylesheet\" type=\"text/css\" href=\"../style.css\" />");
             out.println("</head>");
             out.println("<body>");
 
@@ -116,6 +117,8 @@ public class MembershipType extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    
+    // TODO: Make checkboxes work
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -125,6 +128,7 @@ public class MembershipType extends HttpServlet {
             out.println("<html>");
             out.println("<head>");
             out.println("<title>MP3Store Admin Area -MembershipTypes</title>");
+                         out.println("<link rel=\"stylesheet\" type=\"text/css\" href=\"../style.css\" />");
             out.println("</head>");
             out.println("<body>");
             
@@ -151,33 +155,20 @@ public class MembershipType extends HttpServlet {
                         editedMembershipType.setMembershipName(request.getParameter("MembershipName"));
                         editedMembershipType.setMembershipTypeDesc(request.getParameter("MembershipTypeDesc"));
 
-                        if (request.getParameter("CanDownload").equals("1")) {
-                            editedMembershipType.setCanDownload(true);
-                        } else {
-                            editedMembershipType.setCanDownload(false);
-                        }
-
-                        if (request.getParameter("CanRedownload").equals("1")) {
-                            editedMembershipType.setCanRedownload(true);
-                        } else {
-                            editedMembershipType.setCanDownload(false);
-                        }
-
-                        if (request.getParameter("CanUpload").equals("1")) {
-                            editedMembershipType.setCanUpload(true);
-                        } else {
-                            editedMembershipType.setCanUpload(false);
-                        }
-
-                        if (request.getParameter("CanDownloadUnlimited").equals("1")) {
-                            editedMembershipType.setCanDownloadUnlimited(true);
-                        } else {
-                            editedMembershipType.setCanDownloadUnlimited(false);
-                        }
-
                         out.println("<b>Updating Membership Type Details....</b>");
                         myMembershipTypeConn.updateMembershipType(editedMembershipType);
                         out.println("<b>Membership Type Updated!</b>");
+                    }
+                    else
+                    {
+                        out.println("<b>Error processing input!</b>");
+                        out.println(request.getParameter("MembershipTypeID").toString());
+                        out.println(request.getParameter("MembershipName").toString());
+                        out.println(request.getParameter("MembershipTypeDesc").toString());
+                        out.println(request.getParameter("CanDownload").toString());
+                        out.println(request.getParameter("CanRedownload").toString());
+                        out.println(request.getParameter("CanUpload").toString());
+                        out.println(request.getParameter("CanDownloadUnlimited").toString());
                     }
                 }
 
@@ -216,6 +207,7 @@ public class MembershipType extends HttpServlet {
             out.println("<html>");
             out.println("<head>");
             out.println("<title>MP3Store Admin Area -MembershipTypes</title>");
+                         out.println("<link rel=\"stylesheet\" type=\"text/css\" href=\"../style.css\" />");
             out.println("</head>");
             out.println("<body>");
             
@@ -234,30 +226,6 @@ public class MembershipType extends HttpServlet {
                 tmpMembershipType.setMembershipTypeID(0);
                 tmpMembershipType.setMembershipName(request.getParameter("MembershipName"));
                 tmpMembershipType.setMembershipTypeDesc(request.getParameter("MembershipTypeDesc"));
-
-                if (request.getParameter("CanDownload").equals("1")) {
-                    tmpMembershipType.setCanDownload(true);
-                } else {
-                    tmpMembershipType.setCanDownload(false);
-                }
-
-                if (request.getParameter("CanRedownload").equals("1")) {
-                    tmpMembershipType.setCanRedownload(true);
-                } else {
-                    tmpMembershipType.setCanDownload(false);
-                }
-
-                if (request.getParameter("CanUpload").equals("1")) {
-                    tmpMembershipType.setCanUpload(true);
-                } else {
-                    tmpMembershipType.setCanUpload(false);
-                }
-
-                if (request.getParameter("CanDownloadUnlimited").equals("1")) {
-                    tmpMembershipType.setCanDownloadUnlimited(true);
-                } else {
-                    tmpMembershipType.setCanDownloadUnlimited(false);
-                }
 
                 myMembershipTypeConn.insertMembershipType(tmpMembershipType);
                 out.println("<b>Membership Type Added!</b>");
@@ -294,6 +262,7 @@ public class MembershipType extends HttpServlet {
             out.println("<html>");
             out.println("<head>");
             out.println("<title>MP3Store Admin Area -MembershipTypes</title>");
+                         out.println("<link rel=\"stylesheet\" type=\"text/css\" href=\"../style.css\" />");
             out.println("</head>");
             out.println("<body>");
             

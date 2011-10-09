@@ -42,6 +42,7 @@ public class Genre extends HttpServlet {
             out.println("<html>");
             out.println("<head>");
             out.println("<title>MP3Store Admin Area -Genres</title>");
+                         out.println("<link rel=\"stylesheet\" type=\"text/css\" href=\"../style.css\" />");
             out.println("</head>");
             out.println("<body>");
 
@@ -123,6 +124,7 @@ public class Genre extends HttpServlet {
             out.println("<html>");
             out.println("<head>");
             out.println("<title>MP3Store Admin Area -Genres</title>");
+                         out.println("<link rel=\"stylesheet\" type=\"text/css\" href=\"../style.css\" />");
             out.println("</head>");
             out.println("<body>");
 
@@ -189,6 +191,7 @@ public class Genre extends HttpServlet {
             out.println("<html>");
             out.println("<head>");
             out.println("<title>MP3Store Admin Area -Genres</title>");
+                         out.println("<link rel=\"stylesheet\" type=\"text/css\" href=\"../style.css\" />");
             out.println("</head>");
             out.println("<body>");
 
@@ -237,6 +240,7 @@ public class Genre extends HttpServlet {
             out.println("<html>");
             out.println("<head>");
             out.println("<title>MP3Store Admin Area -Genres</title>");
+                         out.println("<link rel=\"stylesheet\" type=\"text/css\" href=\"../style.css\" />");
             out.println("</head>");
             out.println("<body>");
 

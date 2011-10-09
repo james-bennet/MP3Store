@@ -9,7 +9,6 @@ import MP3Store.Models.CustomerStore;
 import MP3Store.Util.CustomerLoginHelper;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -42,6 +41,7 @@ public class Customer extends HttpServlet {
             out.println("<html>");
             out.println("<head>");
             out.println("<title>MP3Store Customer Area - Your Customer Profile</title>");
+             out.println("<link rel=\"stylesheet\" type=\"text/css\" href=\"../style.css\" />");
             out.println("</head>");
             out.println("<body>");
 

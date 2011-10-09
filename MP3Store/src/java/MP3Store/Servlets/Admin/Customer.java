@@ -42,6 +42,7 @@ public class Customer extends HttpServlet {
             out.println("<html>");
             out.println("<head>");
             out.println("<title>MP3Store Admin Area -Customers</title>");
+                         out.println("<link rel=\"stylesheet\" type=\"text/css\" href=\"../style.css\" />");
             out.println("</head>");
             out.println("<body>");
 
@@ -128,6 +129,7 @@ public class Customer extends HttpServlet {
             out.println("<html>");
             out.println("<head>");
             out.println("<title>MP3Store Admin Area -Customers</title>");
+                         out.println("<link rel=\"stylesheet\" type=\"text/css\" href=\"../style.css\" />");
             out.println("</head>");
             out.println("<body>");
 
@@ -209,6 +211,7 @@ public class Customer extends HttpServlet {
             out.println("<html>");
             out.println("<head>");
             out.println("<title>MP3Store Admin Area -Customers</title>");
+                         out.println("<link rel=\"stylesheet\" type=\"text/css\" href=\"../style.css\" />");
             out.println("</head>");
             out.println("<body>");
 
@@ -259,6 +262,7 @@ public class Customer extends HttpServlet {
             out.println("<html>");
             out.println("<head>");
             out.println("<title>MP3Store Admin Area -Customers</title>");
+                         out.println("<link rel=\"stylesheet\" type=\"text/css\" href=\"../style.css\" />");
             out.println("</head>");
             out.println("<body>");
 
