@@ -68,6 +68,11 @@ public final class MembershipTypeConnector {
         PreparedStatement stmt =
                 null;
         try {
+            
+                        if (con == null)
+            {
+                con = connectToDB();
+            }
 
 // Execute an SQL non-query, dont get a result set. Note used of prepared, paramaterised statement here
 
@@ -101,6 +106,11 @@ public final class MembershipTypeConnector {
         ResultSet rs =
                 null;
         try {
+            
+                        if (con == null)
+            {
+                con = connectToDB();
+            }
 
 // Execute an SQL query to show all MembershipTypes, giving us a ResultSet.
 
@@ -147,6 +157,11 @@ public final class MembershipTypeConnector {
         try {
 // Execute an SQL query to show a specific MembershipTypes, giving us a ResultSet. Note used of prepared, paramaterised statement here.
 
+                        if (con == null)
+            {
+                con = connectToDB();
+            }
+                        
             String qryString = "SELECT MembershipTypeID,MembershipTypeName,MembershipTypeDesc,CanDownload,CanRedownload,CanUpload,CanDownloadUnlimited FROM MembershipType WHERE MembershipTypeID = ?";
             stmt = getCon().prepareStatement(qryString);
             stmt.setInt(1, MembershipTypeID);
@@ -183,6 +198,11 @@ public final class MembershipTypeConnector {
         PreparedStatement stmt =
                 null;
         try {
+            
+                        if (con == null)
+            {
+                con = connectToDB();
+            }
 
 // The rest of the code for querying the db goeTests here.
 
@@ -218,6 +238,11 @@ public final class MembershipTypeConnector {
         PreparedStatement stmt =
                 null;
         try {
+            
+                        if (con == null)
+            {
+                con = connectToDB();
+            }
 
 // The rest of the code for querying the db goes here.
 

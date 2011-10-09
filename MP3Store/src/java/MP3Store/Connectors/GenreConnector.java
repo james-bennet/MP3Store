@@ -68,6 +68,11 @@ public final class GenreConnector {
         PreparedStatement stmt =
                 null;
         try {
+            
+                        if (con == null)
+            {
+                con = connectToDB();
+            }
 
 // Execute an SQL non-query, dont get a result set. Note used of prepared, paramaterised statement here
 
@@ -97,6 +102,11 @@ public final class GenreConnector {
         ResultSet rs =
                 null;
         try {
+            
+                        if (con == null)
+            {
+                con = connectToDB();
+            }
 
 // Execute an SQL query to show all Genres, giving us a ResultSet.
 
@@ -137,6 +147,11 @@ public final class GenreConnector {
         ResultSet rs =
                 null;
         try {
+            
+                        if (con == null)
+            {
+                con = connectToDB();
+            }
 // Execute an SQL query to show a specific Genres, giving us a ResultSet. Note used of prepared, paramaterised statement here.
 
             String qryString = "SELECT GenreID,GenreName,GenreDesc FROM Genre WHERE GenreID = ?";
@@ -171,6 +186,11 @@ public final class GenreConnector {
         PreparedStatement stmt =
                 null;
         try {
+            
+                        if (con == null)
+            {
+                con = connectToDB();
+            }
 
 // The rest of the code for querying the db goeTests here.
 
@@ -203,6 +223,11 @@ public final class GenreConnector {
         PreparedStatement stmt =
                 null;
         try {
+            
+                        if (con == null)
+            {
+                con = connectToDB();
+            }
 
 // The rest of the code for querying the db goes here.
 

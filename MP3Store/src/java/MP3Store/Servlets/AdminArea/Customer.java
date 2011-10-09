@@ -6,6 +6,7 @@ package MP3Store.Servlets.AdminArea;
 
 import MP3Store.Connectors.CustomerConnector;
 import MP3Store.Models.CustomerStore;
+import MP3Store.Util.AdminLoginHelper;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -13,6 +14,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -42,25 +44,30 @@ public class Customer extends HttpServlet {
             out.println("<title>MP3Store Admin Area -Customers</title>");
             out.println("</head>");
             out.println("<body>");
+            
+            // Verify user
+             HttpSession session = request.getSession();
+             
+                        if (session.getAttribute("Username") != null) {
+                if (AdminLoginHelper.verifyUsername(session.getAttribute("Username").toString()))
+                {
+            
             out.println("<h1>MP3Store Admin Area - Customer Servlet at: " + request.getContextPath() + "</h1>");
 
             // Details for just one customer - TODO: Customer not found message
             if (request.getParameter("CustomerID") != null) {
                 CustomerStore customerDetails = myCustConn.getCustomer(Integer.parseInt(request.getParameter("CustomerID")));
-                if (customerDetails != null)
-                {
-                out.println("<ul>");
-                out.println("<li><u><b>Customer #</b>" + customerDetails.getCustomerID() + "</u></li>");
-                out.println("<li><b>" + customerDetails.getCustomerTitle() + " " + customerDetails.getCustomerForename() + " " + customerDetails.getCustomerSurname() + "</b></li>");
-                out.println("<li><b>Email / Password: </b><u>" + customerDetails.getCustomerEmail() + "</u>, '" + customerDetails.getPassword() + "'</li>");
-                out.println("<li><b>Membership type: </b>" + customerDetails.getMembershipType() + ". <b>Verified: </b>" + customerDetails.getVerified() + "</li>");
-                out.println("<li><b>Address: </b><i>" + customerDetails.getCustomerAddress() + "</i></li>");
-                out.println("</ul>");
-                out.println("<form name=\"delete\" action=\"/MP3Store/admin/Customer\" method=\"POST\"><input type=\"hidden\" name=\"CustomerID\" value=\"" + customerDetails.getCustomerID() + "\"><input type=\"hidden\" name=\"Mode\" value=\"DELETE\"><input type=\"submit\" value=\"Delete Customer\" /></form>");
-                out.println("<u><b><a href=\"/MP3Store/admin/editCustomer.jsp?CustomerID=" + customerDetails.getCustomerID() + "\">Edit Customer</a></b></u>");
-                                }
-                else
-                {
+                if (customerDetails != null) {
+                    out.println("<ul>");
+                    out.println("<li><u><b>Customer #</b>" + customerDetails.getCustomerID() + "</u></li>");
+                    out.println("<li><b>" + customerDetails.getCustomerTitle() + " " + customerDetails.getCustomerForename() + " " + customerDetails.getCustomerSurname() + "</b></li>");
+                    out.println("<li><b>Email / Password: </b><u>" + customerDetails.getCustomerEmail() + "</u>, '" + customerDetails.getPassword() + "'</li>");
+                    out.println("<li><b>Membership type: </b>" + customerDetails.getMembershipType() + ". <b>Verified: </b>" + customerDetails.getVerified() + "</li>");
+                    out.println("<li><b>Address: </b><i>" + customerDetails.getCustomerAddress() + "</i></li>");
+                    out.println("</ul>");
+                    out.println("<form name=\"delete\" action=\"/MP3Store/admin/Customer\" method=\"POST\"><input type=\"hidden\" name=\"CustomerID\" value=\"" + customerDetails.getCustomerID() + "\"><input type=\"hidden\" name=\"Mode\" value=\"DELETE\"><input type=\"submit\" value=\"Delete Customer\" /></form>");
+                    out.println("<u><b><a href=\"/MP3Store/admin/editCustomer.jsp?CustomerID=" + customerDetails.getCustomerID() + "\">Edit Customer</a></b></u><br />");
+                } else {
                     out.println("<h3>No Customer found with this ID!</h3>");
                 }
             } else // Details for all customers
@@ -70,34 +77,42 @@ public class Customer extends HttpServlet {
                 ArrayList<CustomerStore> allCustsList = new ArrayList<CustomerStore>();
                 allCustsList = myCustConn.getAllCustomers();
 
-                if (!allCustsList.isEmpty())
-                {
+                if (!allCustsList.isEmpty()) {
 // Display all customers using forach
-                for (CustomerStore i : allCustsList) {
-                    out.println("<li>");
-                    out.println("<ul>");
-                    out.println("<li><u><a href=\"/MP3Store/admin/Customer?CustomerID=" + i.getCustomerID() + "\"> <b>Customer #</b>" + i.getCustomerID() + "</u></a></li>");
-                    out.println("<li><b>" + i.getCustomerTitle() + " " + i.getCustomerForename() + " " + i.getCustomerSurname() + "</b></li>");
-                    out.println("<li><b>Email / Password: </b><u>" + i.getCustomerEmail() + "</u>, '" + i.getPassword() + "'</li>");
-                    out.println("<li><b>Membership type: </b>" + i.getMembershipType() + ". <b>Verified: </b>" + i.getVerified() + "</li>");
-                    out.println("<li><B>Address: </b><i>" + i.getCustomerAddress() + "</i></li>");
-                    out.println("</ul>");
-                    out.println("</li>");
+                    for (CustomerStore i : allCustsList) {
+                        out.println("<li>");
+                        out.println("<ul>");
+                        out.println("<li><u><a href=\"/MP3Store/admin/Customer?CustomerID=" + i.getCustomerID() + "\"> <b>Customer #</b>" + i.getCustomerID() + "</u></a></li>");
+                        out.println("<li><b>" + i.getCustomerTitle() + " " + i.getCustomerForename() + " " + i.getCustomerSurname() + "</b></li>");
+                        out.println("<li><b>Email / Password: </b><u>" + i.getCustomerEmail() + "</u>, '" + i.getPassword() + "'</li>");
+                        out.println("<li><b>Membership type: </b>" + i.getMembershipType() + ". <b>Verified: </b>" + i.getVerified() + "</li>");
+                        out.println("<li><B>Address: </b><i>" + i.getCustomerAddress() + "</i></li>");
+                        out.println("</ul>");
+                        out.println("</li>");
+                    }
+                    out.println("</ol>");
+                } else {
+                    out.println("<h3>No Customers found!</h3>");
                 }
-                out.println("</ol>");
+                out.println("<u><b><a href=\"/MP3Store/admin/addCustomer.jsp\">Add Customer</a></b></u><br />");
+            }
+              out.println("<u><b><a href=\"/MP3Store/admin/index.jsp\">Back to Administration Homepage</a></b></u>");
                 }
                 else
                 {
-                    out.println("<h3>No Customers found!</h3>");
+                   out.println("<h3>Authentication Error!</h3>");  
                 }
-            out.println("<u><b><a href=\"/MP3Store/admin/addCustomer.jsp\">Add Customer</a></b></u><br /");
-            }
-            out.println("</body>");
-            out.println("</html>");
+                        }
+                        else
+                        {
+                        out.println("<h3>Please <a href=\"/MP3Store/admin/index.jsp\">Login!</a></h3>"); 
+                        }
         } catch (Exception e) {
             out.println("<h3>Sorry, there was an error!</h3>");
             System.out.println("Exception in doGet()" + e.toString());
         } finally {
+            out.println("</body>");
+            out.println("</html>");
             out.close();
         }
     }
@@ -115,6 +130,13 @@ public class Customer extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         try {
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>MP3Store Admin Area -Customers</title>");
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>MP3Store Admin Area - Customer Servlet at: " + request.getContextPath() + "</h1>");
+
             if (request.getParameter("Mode") != null) {
                 if (request.getParameter("Mode").equalsIgnoreCase("DELETE")) {
                     out.println("<b>Deleting Customer.....</b>");
@@ -148,10 +170,13 @@ public class Customer extends HttpServlet {
                 }
 
             }
+            out.println("<u><b><a href=\"/MP3Store/admin/index.jsp\">Back to Administration Homepage</a></b></u>");
         } catch (Exception e) {
             out.println("<h3>Sorry, there was an error!</h3>");
             System.out.println("Exception in doPost()" + e.toString());
         } finally {
+            out.println("</body>");
+            out.println("</html>");
             out.close();
         }
 
@@ -170,6 +195,13 @@ public class Customer extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         try {
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>MP3Store Admin Area -Customers</title>");
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>MP3Store Admin Area - Customer Servlet at: " + request.getContextPath() + "</h1>");
+
             //  Process customer registration form. TODO: DANGER! - More validation!
             CustomerConnector myCustConn = new CustomerConnector();
             if (request.getParameter("Title") != null && request.getParameter("Forename") != null && request.getParameter("Surname") != null && request.getParameter("Adddress") != null && request.getParameter("Email") != null && request.getParameter("Password") != null) {
@@ -180,6 +212,8 @@ public class Customer extends HttpServlet {
             out.println("<h3>Sorry, there was an error!</h3>");
             System.out.println("Exception in doPut()" + e.toString());
         } finally {
+            out.println("</body>");
+            out.println("</html>");
             out.close();
         }
     }
@@ -197,6 +231,13 @@ public class Customer extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         try {
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>MP3Store Admin Area -Customers</title>");
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>MP3Store Admin Area - Customer Servlet at: " + request.getContextPath() + "</h1>");
+
             CustomerConnector myCustConn = new CustomerConnector();
             if (request.getParameter("CustomerID") != null) {
                 myCustConn.deleteCustomer(Integer.parseInt(request.getParameter("CustomerID")));
@@ -206,6 +247,8 @@ public class Customer extends HttpServlet {
             out.println("<h3>Sorry, there was an error!</h3>");
             System.out.println("Exception in doDelete()" + e.toString());
         } finally {
+            out.println("</body>");
+            out.println("</html>");
             out.close();
         }
     }

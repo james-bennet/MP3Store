@@ -68,6 +68,11 @@ public final class CustomerConnector {
         PreparedStatement stmt =
                 null;
         try {
+            
+            if (con == null)
+            {
+                con = connectToDB();
+            }
 
 // Execute an SQL non-query, dont get a result set. Note used of prepared, paramaterised statement here
 
@@ -103,6 +108,11 @@ public final class CustomerConnector {
         ResultSet rs =
                 null;
         try {
+            
+                        if (con == null)
+            {
+                con = connectToDB();
+            }
 
 // Execute an SQL query to show all Customers, giving us a ResultSet.
 
@@ -152,6 +162,11 @@ public final class CustomerConnector {
         try {
 // Execute an SQL query to show a specific Customers, giving us a ResultSet. Note used of prepared, paramaterised statement here.
 
+                        if (con == null)
+            {
+                con = connectToDB();
+            }
+                        
             String qryString = "SELECT CustomerID,CustomerForename,CustomerSurname,CustomerTitle,CustomerEmail,CustomerAddress,CustomerSince,Verified,MembershipType,Password FROM Customer WHERE CustomerID = ?";
             stmt = getCon().prepareStatement(qryString);
             stmt.setInt(1, CustomerID);
@@ -191,6 +206,11 @@ public final class CustomerConnector {
         PreparedStatement stmt =
                 null;
         try {
+            
+                        if (con == null)
+            {
+                con = connectToDB();
+            }
 
 // The rest of the code for querying the db goeTests here.
 
@@ -230,6 +250,11 @@ public final class CustomerConnector {
         PreparedStatement stmt =
                 null;
         try {
+            
+                        if (con == null)
+            {
+                con = connectToDB();
+            }
 
 // The rest of the code for querying the db goes here.
 

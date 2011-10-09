@@ -4,6 +4,7 @@
     Author     : james
 --%>
 
+<%@page import="MP3Store.Util.AdminLoginHelper"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -12,6 +13,10 @@
         <title>MP3Store Admin Area - Add a customer</title>
     </head>
     <body>
+        <%
+            if (session.getAttribute("Username") != null) {
+                if (AdminLoginHelper.verifyUsername(session.getAttribute("Username").toString())) {
+        %>
         <h1>MP3Store Admin Area- Add a customer</h1>
         <form name="addCustomer" action="/MP3Store/admin/Customer" method="POST">
             Title: <input type="text" name="Title"><br />
@@ -24,4 +29,10 @@
             <input type="submit" value="Add New Customer" />
         </form> 
     </body> 
+    <%                }
+        } else {
+            out.println("<h3>You must be logged in as an Administrator in order to access this area!</h3>");
+        }
+            out.println("<u><b><a href=\"/MP3Store/admin/index.jsp\">Back to Administration Homepage</a></b></u>");
+    %>
 </html>
