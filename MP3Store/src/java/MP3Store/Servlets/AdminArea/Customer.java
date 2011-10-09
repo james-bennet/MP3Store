@@ -42,7 +42,7 @@ public class Customer extends HttpServlet {
             out.println("<title>MP3Store Admin Area -Customers</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>MP3Store Admin Area -Customer Servlet at: " + request.getContextPath() + "</h1>");
+            out.println("<h1>MP3Store Admin Area - Customer Servlet at: " + request.getContextPath() + "</h1>");
 
             // Details for just one customer - TODO: Customer not found message
             if (request.getParameter("CustomerID") != null) {
@@ -72,7 +72,7 @@ public class Customer extends HttpServlet {
 
                 if (!allCustsList.isEmpty())
                 {
-// Display all cistomers using forach
+// Display all customers using forach
                 for (CustomerStore i : allCustsList) {
                     out.println("<li>");
                     out.println("<ul>");
@@ -91,7 +91,6 @@ public class Customer extends HttpServlet {
                     out.println("<h3>No Customers found!</h3>");
                 }
             out.println("<u><b><a href=\"/MP3Store/admin/addCustomer.jsp\">Add Customer</a></b></u><br /");
-            out.println("<u><b><a href=\"/MP3Store/admin/editCustomer.jsp\">Edit Customer</a></b></u>");
             }
             out.println("</body>");
             out.println("</html>");

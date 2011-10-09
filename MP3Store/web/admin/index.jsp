@@ -13,6 +13,9 @@
     </head>
     <body>
         <h1>MP3Store Admin Area</h1>
-        <u><b><a href="/MP3Store/admin/Customer">Customer Administration</a></b></u>
+        <ul>
+            <li><u><b><a href="/MP3Store/admin/Customer">Customer Administration</a></b></u> </li>
+         <li><u><b><a href="/MP3Store/admin/Customer">Add/Edit Music Genres</a></b></u> </li>
+        </ul>
     </body>
 </html>
