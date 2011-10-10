@@ -51,6 +51,11 @@
         %>
 
         <h1>MP3Store Customer Home</h1>
+        
+        <ul>
+            <li><u><b><a href="/MP3Store/frontend/Customer">View your Customer Profile</a></b></u></li>
+        </ul>
+    
 <form name="CustomerLogout" action="/MP3Store/frontend/index.jsp">
     <input type="hidden" name="logout"><br />
     <input type="submit" value="Logout" />

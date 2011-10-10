@@ -153,7 +153,7 @@ public class Customer extends HttpServlet {
                             doPut(request, response);
                         } else {
                             // TODO: Secure the editing functionality
-                            if (request.getParameter("Username") != null && request.getParameter("Title") != null && request.getParameter("Forename") != null && request.getParameter("Surname") != null && request.getParameter("Adddress") != null && request.getParameter("Email") != null && request.getParameter("Password") != null) {
+                            if (request.getParameter("Username") != null && request.getParameter("Title") != null && request.getParameter("Forename") != null && request.getParameter("Surname") != null && request.getParameter("Adddress") != null && request.getParameter("Email") != null && request.getParameter("Password") != null && request.getParameter("MembershipType") !=null && request.getParameter("Verified")!= null) {
                                 CustomerConnector myCustConn = new CustomerConnector();
                                 CustomerStore editedCustomer = new CustomerStore();
                                 editedCustomer.setUsername(request.getParameter("Username"));
@@ -228,7 +228,7 @@ public class Customer extends HttpServlet {
 
                     //  Process customer registration form. TODO: DANGER! - More validation!
                     CustomerConnector myCustConn = new CustomerConnector();
-                    if (request.getParameter("Username") != null && request.getParameter("Title") != null && request.getParameter("Forename") != null && request.getParameter("Surname") != null && request.getParameter("Adddress") != null && request.getParameter("Email") != null && request.getParameter("Password") != null) {
+                    if (request.getParameter("Username") != null && request.getParameter("Title") != null && request.getParameter("Forename") != null && request.getParameter("Surname") != null && request.getParameter("Adddress") != null && request.getParameter("Email") != null && request.getParameter("Password") != null ) {
                         myCustConn.insertCustomer(new CustomerStore(request.getParameter("Username"), request.getParameter("Forename"), request.getParameter("Surname"), request.getParameter("Title"), request.getParameter("Email"), request.getParameter("Adddress"), null, false, 0, request.getParameter("Password")));
                         out.println("<b>Customer Added!</b>");
                     }
@@ -277,7 +277,7 @@ public class Customer extends HttpServlet {
 
                     CustomerConnector myCustConn = new CustomerConnector();
                     if (request.getParameter("Username") != null) {
-                        myCustConn.deleteCustomer(Integer.parseInt(request.getParameter("Username")));
+                        myCustConn.deleteCustomer(request.getParameter("Username").toString());
                         out.println("<b>Customer Deleted!</b>");
                     }
 

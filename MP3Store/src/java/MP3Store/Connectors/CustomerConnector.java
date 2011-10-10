@@ -245,7 +245,7 @@ public final class CustomerConnector {
         return true;
     }
 
-    public boolean deleteCustomer(Integer Username) {
+    public boolean deleteCustomer(String Username) {
 
         PreparedStatement stmt =
                 null;
@@ -261,7 +261,7 @@ public final class CustomerConnector {
             // Execute an SQL non-query, dont get a result set
             String qryString = "DELETE FROM Customer WHERE Username = ?";
             stmt = getCon().prepareStatement(qryString);
-            stmt.setInt(1, Username);
+            stmt.setString(1, Username);
             stmt.executeUpdate();
 
         } catch (SQLException e) {
