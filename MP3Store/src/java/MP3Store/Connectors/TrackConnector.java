@@ -1,6 +1,6 @@
 package MP3Store.Connectors;
 
-import MP3Store.Models.CustomerStore;
+import MP3Store.Models.TrackStore;
 import MP3Store.Util.DatabaseInformationStore;
 import java.sql.*;
 import java.util.ArrayList;
@@ -9,12 +9,12 @@ import java.util.ArrayList;
  *
  * @author James
  */
-public final class CustomerConnector {
+public final class TrackConnector {
 
     private Connection con =
             null;
 
-    public CustomerConnector() {
+    public TrackConnector() {
         con = connectToDB();
     }
 
@@ -63,30 +63,27 @@ public final class CustomerConnector {
         return true;
     }
 
-    public boolean updateCustomer(CustomerStore newCustomer) {
+    public boolean updateTrack(TrackStore newTrack) {
 
         PreparedStatement stmt =
                 null;
         try {
             
-            if (con == null)
+                        if (con == null)
             {
                 con = connectToDB();
             }
 
 // Execute an SQL non-query, dont get a result set. Note used of prepared, paramaterised statement here
 
-            String qryString = "UPDATE Customer SET CustomerForename=?,CustomerSurname=?,CustomerTitle=?,CustomerEmail=?,CustomerAddress=?,Verified=?,MembershipType=?,Password=? WHERE Username=?";
+            String qryString = "UPDATE Track SET TrackNumber=?,AlbumID=?,TrackName=?,FilePath=?,Price=? WHERE TrackID=?";
             stmt = getCon().prepareStatement(qryString);
-            stmt.setString(1, newCustomer.getCustomerForename());
-            stmt.setString(2, newCustomer.getCustomerSurname());
-            stmt.setString(3, newCustomer.getCustomerTitle());
-            stmt.setString(4, newCustomer.getCustomerEmail());
-            stmt.setString(5, newCustomer.getCustomerAddress());
-            stmt.setBoolean(6, newCustomer.getVerified());
-            stmt.setInt(7, newCustomer.getMembershipType());
-            stmt.setString(8, newCustomer.getPassword());
-            stmt.setString(9, newCustomer.getUsername());
+            stmt.setInt(1, newTrack.getTrackNumber());
+            stmt.setInt(2, newTrack.getAlbumID());
+            stmt.setString(3, newTrack.getTrackName());
+            stmt.setString(4, newTrack.getFilePath());                                
+            stmt.setBigDecimal(5, newTrack.getPrice());
+            stmt.setInt(6, newTrack.getTrackID());
             stmt.executeUpdate();
         } catch (SQLException e) {
             // Handle errors with the connection
@@ -100,8 +97,8 @@ public final class CustomerConnector {
         return false;
     }
 
-    public ArrayList<CustomerStore> getAllCustomers() {
-        ArrayList<CustomerStore> foundCustomer = new ArrayList<CustomerStore>();
+    public ArrayList<TrackStore> getAllTracks() {
+        ArrayList<TrackStore> foundTrack = new ArrayList<TrackStore>();
 
         PreparedStatement stmt =
                 null;
@@ -114,34 +111,30 @@ public final class CustomerConnector {
                 con = connectToDB();
             }
 
-// Execute an SQL query to show all Customers, giving us a ResultSet.
+// Execute an SQL query to show all Tracks, giving us a ResultSet.
 
-            String qryString = "SELECT Username,CustomerForename,CustomerSurname,CustomerTitle,CustomerEmail,CustomerAddress,CustomerSince,Verified,MembershipType,Password FROM Customer";
+            String qryString = "SELECT TrackID,TrackNumber,AlbumID,TrackName,FilePath,Price FROM Track";
             stmt = getCon().prepareStatement(qryString);
 
             rs =
                     stmt.executeQuery();
             while (rs.next()) {
-                CustomerStore tmpCustomer = new CustomerStore();
+                TrackStore tmpTrack = new TrackStore();
+                
+            tmpTrack.setTrackID(rs.getInt("TrackID"));
+            tmpTrack.setTrackNumber(rs.getInt("TrackNumber"));
+            tmpTrack.setAlbumID(rs.getInt("AlbumID"));
+            tmpTrack.setTrackName(rs.getString("TrackName"));
+            tmpTrack.setFilePath(rs.getString("FilePath"));                                
+            tmpTrack.setPrice(rs.getBigDecimal("Price"));
 
-                tmpCustomer.setUsername(rs.getString("Username"));
-                tmpCustomer.setCustomerForename(rs.getString("CustomerForename"));
-                tmpCustomer.setCustomerSurname(rs.getString("CustomerSurname"));
-                tmpCustomer.setCustomerTitle(rs.getString("CustomerTitle"));
-                tmpCustomer.setCustomerEmail(rs.getString("CustomerEmail"));
-                tmpCustomer.setCustomerAddress(rs.getString("CustomerAddress"));
-                tmpCustomer.setCustomerSince(rs.getTimestamp("CustomerSince"));
-                tmpCustomer.setVerified(rs.getBoolean("Verified"));
-                tmpCustomer.setMembershipType(rs.getInt("MembershipType"));
-                tmpCustomer.setPassword(rs.getString("Password"));
-
-                // Add this Customer to list of returned Customers
-                foundCustomer.add(tmpCustomer);
+                // Add this Track to list of returned Tracks
+                foundTrack.add(tmpTrack);
             }
 
         } catch (SQLException e) {
             // Handle errors with the connection
-            System.out.println("SQLException caught in getAllCustomers(): "
+            System.out.println("SQLException caught in getAllTracks(): "
                     + e.getMessage());
             return null;
         } finally {
@@ -149,43 +142,39 @@ public final class CustomerConnector {
             disconnectFromDB(getCon()); // Use helper method
         }
 
-        return foundCustomer;
+        return foundTrack;
     }
 
-    public CustomerStore getCustomer(String Username) {
-        CustomerStore foundCustomer = new CustomerStore();
+    public TrackStore getTrack(int TrackID) {
+        TrackStore foundTrack = new TrackStore();
 
         PreparedStatement stmt =
                 null;
         ResultSet rs =
                 null;
         try {
-// Execute an SQL query to show a specific Customers, giving us a ResultSet. Note used of prepared, paramaterised statement here.
-
+            
                         if (con == null)
             {
                 con = connectToDB();
             }
-                        
-            String qryString = "SELECT Username,CustomerForename,CustomerSurname,CustomerTitle,CustomerEmail,CustomerAddress,CustomerSince,Verified,MembershipType,Password FROM Customer WHERE Username = ?";
+// Execute an SQL query to show a specific Tracks, giving us a ResultSet. Note used of prepared, paramaterised statement here.
+
+            String qryString = "SELECT TrackID,TrackNumber,AlbumID,TrackName,FilePath,Price FROM Track WHERE TrackID = ?";
             stmt = getCon().prepareStatement(qryString);
-            stmt.setString(1, Username);
+            stmt.setInt(1, TrackID);
 
             // TODO: test
             rs =
                     stmt.executeQuery();
             rs.first();
 
-            foundCustomer.setUsername(rs.getString("Username"));
-            foundCustomer.setCustomerForename(rs.getString("CustomerForename"));
-            foundCustomer.setCustomerSurname(rs.getString("CustomerSurname"));
-            foundCustomer.setCustomerTitle(rs.getString("CustomerTitle"));
-            foundCustomer.setCustomerEmail(rs.getString("CustomerEmail"));
-            foundCustomer.setCustomerAddress(rs.getString("CustomerAddress"));
-            foundCustomer.setCustomerSince(rs.getTimestamp("CustomerSince"));
-            foundCustomer.setVerified(rs.getBoolean("Verified"));
-            foundCustomer.setMembershipType(rs.getInt("MembershipType"));
-            foundCustomer.setPassword(rs.getString("Password"));
+            foundTrack.setTrackID(rs.getInt("TrackID"));
+            foundTrack.setTrackNumber(rs.getInt("TrackNumber"));
+            foundTrack.setAlbumID(rs.getInt("AlbumID"));
+            foundTrack.setTrackName(rs.getString("TrackName"));
+            foundTrack.setFilePath(rs.getString("FilePath"));                                
+            foundTrack.setPrice(rs.getBigDecimal("Price"));
 
         } catch (SQLException e) {
             // Handle errors with the connection
@@ -198,10 +187,10 @@ public final class CustomerConnector {
             disconnectFromDB(getCon()); // Use helper method
         }
 
-        return foundCustomer;
+        return foundTrack;
     }
 
-    public boolean insertCustomer(CustomerStore newCustomer) {
+    public boolean insertTrack(TrackStore newTrack) {
 
         PreparedStatement stmt =
                 null;
@@ -216,20 +205,16 @@ public final class CustomerConnector {
 
             // Execute an SQL non-query, dont get a result set
 
-            String qryString = "INSERT INTO Customer (Username,CustomerForename,CustomerSurname,CustomerTitle,CustomerEmail,CustomerAddress,CustomerSince,Verified,MembershipType,Password)"
-                    + " VALUES (?,?,?,?,?,?,?,?,?,?)";
+            String qryString = "INSERT INTO Track (TrackID,TrackNumber,AlbumID,TrackName,FilePath,Price)"
+                    + " VALUES (?,?,?,?,?,?)";
 
             stmt = getCon().prepareStatement(qryString);
-            stmt.setString(1, newCustomer.getUsername());
-            stmt.setString(2, newCustomer.getCustomerForename());
-            stmt.setString(3, newCustomer.getCustomerSurname());
-            stmt.setString(4, newCustomer.getCustomerTitle());
-            stmt.setString(5, newCustomer.getCustomerEmail());
-            stmt.setString(6, newCustomer.getCustomerAddress());
-            stmt.setNull(7, java.sql.Types.TIMESTAMP);
-            stmt.setBoolean(8, newCustomer.getVerified());
-            stmt.setInt(9, newCustomer.getMembershipType());
-            stmt.setString(10, newCustomer.getPassword());
+            stmt.setNull(1, java.sql.Types.INTEGER);
+            stmt.setInt(2, newTrack.getTrackNumber());
+            stmt.setInt(3, newTrack.getAlbumID());
+            stmt.setString(4, newTrack.getTrackName());
+            stmt.setString(5, newTrack.getFilePath());                                
+            stmt.setBigDecimal(6, newTrack.getPrice());
 
             stmt.executeUpdate();
 
@@ -245,7 +230,7 @@ public final class CustomerConnector {
         return true;
     }
 
-    public boolean deleteCustomer(Integer Username) {
+    public boolean deleteTrack(Integer TrackID) {
 
         PreparedStatement stmt =
                 null;
@@ -259,9 +244,9 @@ public final class CustomerConnector {
 // The rest of the code for querying the db goes here.
 
             // Execute an SQL non-query, dont get a result set
-            String qryString = "DELETE FROM Customer WHERE Username = ?";
+            String qryString = "DELETE FROM Track WHERE TrackID = ?";
             stmt = getCon().prepareStatement(qryString);
-            stmt.setInt(1, Username);
+            stmt.setInt(1, TrackID);
             stmt.executeUpdate();
 
         } catch (SQLException e) {

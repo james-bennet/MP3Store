@@ -1,6 +1,6 @@
 package MP3Store.Connectors;
 
-import MP3Store.Models.CustomerStore;
+import MP3Store.Models.AlbumStore;
 import MP3Store.Util.DatabaseInformationStore;
 import java.sql.*;
 import java.util.ArrayList;
@@ -9,12 +9,12 @@ import java.util.ArrayList;
  *
  * @author James
  */
-public final class CustomerConnector {
+public final class AlbumConnector {
 
     private Connection con =
             null;
 
-    public CustomerConnector() {
+    public AlbumConnector() {
         con = connectToDB();
     }
 
@@ -63,30 +63,26 @@ public final class CustomerConnector {
         return true;
     }
 
-    public boolean updateCustomer(CustomerStore newCustomer) {
+    public boolean updateAlbum(AlbumStore newAlbum) {
 
         PreparedStatement stmt =
                 null;
         try {
             
-            if (con == null)
+                        if (con == null)
             {
                 con = connectToDB();
             }
 
 // Execute an SQL non-query, dont get a result set. Note used of prepared, paramaterised statement here
 
-            String qryString = "UPDATE Customer SET CustomerForename=?,CustomerSurname=?,CustomerTitle=?,CustomerEmail=?,CustomerAddress=?,Verified=?,MembershipType=?,Password=? WHERE Username=?";
+            String qryString = "UPDATE Album SET AlbumName=?,AlbumGenre=?,AlbumDesc,Rating=? WHERE AlbumID=?";
             stmt = getCon().prepareStatement(qryString);
-            stmt.setString(1, newCustomer.getCustomerForename());
-            stmt.setString(2, newCustomer.getCustomerSurname());
-            stmt.setString(3, newCustomer.getCustomerTitle());
-            stmt.setString(4, newCustomer.getCustomerEmail());
-            stmt.setString(5, newCustomer.getCustomerAddress());
-            stmt.setBoolean(6, newCustomer.getVerified());
-            stmt.setInt(7, newCustomer.getMembershipType());
-            stmt.setString(8, newCustomer.getPassword());
-            stmt.setString(9, newCustomer.getUsername());
+            stmt.setString(1, newAlbum.getAlbumName());
+            stmt.setInt(2, newAlbum.getAlbumGenre());
+            stmt.setString(3, newAlbum.getAlbumDesc());
+            stmt.setInt(4, newAlbum.getRating());                                   
+            stmt.setInt(5, newAlbum.getAlbumID());
             stmt.executeUpdate();
         } catch (SQLException e) {
             // Handle errors with the connection
@@ -100,8 +96,8 @@ public final class CustomerConnector {
         return false;
     }
 
-    public ArrayList<CustomerStore> getAllCustomers() {
-        ArrayList<CustomerStore> foundCustomer = new ArrayList<CustomerStore>();
+    public ArrayList<AlbumStore> getAllAlbums() {
+        ArrayList<AlbumStore> foundAlbum = new ArrayList<AlbumStore>();
 
         PreparedStatement stmt =
                 null;
@@ -114,34 +110,30 @@ public final class CustomerConnector {
                 con = connectToDB();
             }
 
-// Execute an SQL query to show all Customers, giving us a ResultSet.
+// Execute an SQL query to show all Albums, giving us a ResultSet.
 
-            String qryString = "SELECT Username,CustomerForename,CustomerSurname,CustomerTitle,CustomerEmail,CustomerAddress,CustomerSince,Verified,MembershipType,Password FROM Customer";
+            String qryString = "SELECT AlbumID,BandID,AlbumName,AlbumGenre,AlbumDesc,ReleaseDate,Rating FROM Album";
             stmt = getCon().prepareStatement(qryString);
 
             rs =
                     stmt.executeQuery();
             while (rs.next()) {
-                CustomerStore tmpCustomer = new CustomerStore();
+                AlbumStore tmpAlbum = new AlbumStore();
 
-                tmpCustomer.setUsername(rs.getString("Username"));
-                tmpCustomer.setCustomerForename(rs.getString("CustomerForename"));
-                tmpCustomer.setCustomerSurname(rs.getString("CustomerSurname"));
-                tmpCustomer.setCustomerTitle(rs.getString("CustomerTitle"));
-                tmpCustomer.setCustomerEmail(rs.getString("CustomerEmail"));
-                tmpCustomer.setCustomerAddress(rs.getString("CustomerAddress"));
-                tmpCustomer.setCustomerSince(rs.getTimestamp("CustomerSince"));
-                tmpCustomer.setVerified(rs.getBoolean("Verified"));
-                tmpCustomer.setMembershipType(rs.getInt("MembershipType"));
-                tmpCustomer.setPassword(rs.getString("Password"));
-
-                // Add this Customer to list of returned Customers
-                foundCustomer.add(tmpCustomer);
+                tmpAlbum.setAlbumID(rs.getInt("AlbumID"));
+                tmpAlbum.setBandID(rs.getInt("BandID"));
+                tmpAlbum.setAlbumName(rs.getString("AlbumName"));
+                tmpAlbum.setAlbumGenre(rs.getInt("AlbumGenre"));
+                tmpAlbum.setReleaseDate(rs.getTimestamp("ReleaseDate"));
+                tmpAlbum.setAlbumDesc(rs.getString("Rating"));
+                tmpAlbum.setRating(rs.getInt("AlbumGenre"));
+                // Add this Album to list of returned Albums
+                foundAlbum.add(tmpAlbum);
             }
 
         } catch (SQLException e) {
             // Handle errors with the connection
-            System.out.println("SQLException caught in getAllCustomers(): "
+            System.out.println("SQLException caught in getAllAlbums(): "
                     + e.getMessage());
             return null;
         } finally {
@@ -149,43 +141,40 @@ public final class CustomerConnector {
             disconnectFromDB(getCon()); // Use helper method
         }
 
-        return foundCustomer;
+        return foundAlbum;
     }
 
-    public CustomerStore getCustomer(String Username) {
-        CustomerStore foundCustomer = new CustomerStore();
+    public AlbumStore getAlbum(int AlbumID) {
+        AlbumStore foundAlbum = new AlbumStore();
 
         PreparedStatement stmt =
                 null;
         ResultSet rs =
                 null;
         try {
-// Execute an SQL query to show a specific Customers, giving us a ResultSet. Note used of prepared, paramaterised statement here.
-
+            
                         if (con == null)
             {
                 con = connectToDB();
             }
-                        
-            String qryString = "SELECT Username,CustomerForename,CustomerSurname,CustomerTitle,CustomerEmail,CustomerAddress,CustomerSince,Verified,MembershipType,Password FROM Customer WHERE Username = ?";
+// Execute an SQL query to show a specific Albums, giving us a ResultSet. Note used of prepared, paramaterised statement here.
+
+            String qryString = "SELECT AlbumID,BandID,AlbumName,AlbumGenre,AlbumDesc,ReleaseDate,Rating FROM Album WHERE AlbumID = ?";
             stmt = getCon().prepareStatement(qryString);
-            stmt.setString(1, Username);
+            stmt.setInt(1, AlbumID);
 
             // TODO: test
             rs =
                     stmt.executeQuery();
             rs.first();
 
-            foundCustomer.setUsername(rs.getString("Username"));
-            foundCustomer.setCustomerForename(rs.getString("CustomerForename"));
-            foundCustomer.setCustomerSurname(rs.getString("CustomerSurname"));
-            foundCustomer.setCustomerTitle(rs.getString("CustomerTitle"));
-            foundCustomer.setCustomerEmail(rs.getString("CustomerEmail"));
-            foundCustomer.setCustomerAddress(rs.getString("CustomerAddress"));
-            foundCustomer.setCustomerSince(rs.getTimestamp("CustomerSince"));
-            foundCustomer.setVerified(rs.getBoolean("Verified"));
-            foundCustomer.setMembershipType(rs.getInt("MembershipType"));
-            foundCustomer.setPassword(rs.getString("Password"));
+                foundAlbum.setAlbumID(rs.getInt("AlbumID"));
+                foundAlbum.setBandID(rs.getInt("BandID"));
+                foundAlbum.setAlbumName(rs.getString("AlbumName"));
+                foundAlbum.setAlbumGenre(rs.getInt("AlbumGenre"));
+                foundAlbum.setReleaseDate(rs.getTimestamp("ReleaseDate"));
+                foundAlbum.setAlbumDesc(rs.getString("Rating"));
+                foundAlbum.setRating(rs.getInt("AlbumGenre"));
 
         } catch (SQLException e) {
             // Handle errors with the connection
@@ -198,10 +187,10 @@ public final class CustomerConnector {
             disconnectFromDB(getCon()); // Use helper method
         }
 
-        return foundCustomer;
+        return foundAlbum;
     }
 
-    public boolean insertCustomer(CustomerStore newCustomer) {
+    public boolean insertAlbum(AlbumStore newAlbum) {
 
         PreparedStatement stmt =
                 null;
@@ -216,20 +205,17 @@ public final class CustomerConnector {
 
             // Execute an SQL non-query, dont get a result set
 
-            String qryString = "INSERT INTO Customer (Username,CustomerForename,CustomerSurname,CustomerTitle,CustomerEmail,CustomerAddress,CustomerSince,Verified,MembershipType,Password)"
-                    + " VALUES (?,?,?,?,?,?,?,?,?,?)";
+            String qryString = "INSERT INTO Album (AlbumID,BandID,AlbumName,AlbumGenre,AlbumDesc,ReleaseDate,Rating)"
+                    + " VALUES (?,?,?,?,?,?,?)";
 
             stmt = getCon().prepareStatement(qryString);
-            stmt.setString(1, newCustomer.getUsername());
-            stmt.setString(2, newCustomer.getCustomerForename());
-            stmt.setString(3, newCustomer.getCustomerSurname());
-            stmt.setString(4, newCustomer.getCustomerTitle());
-            stmt.setString(5, newCustomer.getCustomerEmail());
-            stmt.setString(6, newCustomer.getCustomerAddress());
-            stmt.setNull(7, java.sql.Types.TIMESTAMP);
-            stmt.setBoolean(8, newCustomer.getVerified());
-            stmt.setInt(9, newCustomer.getMembershipType());
-            stmt.setString(10, newCustomer.getPassword());
+            stmt.setNull(1, java.sql.Types.INTEGER);
+            stmt.setString(2, newAlbum.getAlbumName());
+            stmt.setInt(3, newAlbum.getAlbumGenre());
+            stmt.setString(4, newAlbum.getAlbumDesc());
+            stmt.setNull(5, java.sql.Types.TIMESTAMP);
+            stmt.setInt(6, newAlbum.getRating());                                   
+            stmt.setInt(7, newAlbum.getAlbumID());
 
             stmt.executeUpdate();
 
@@ -245,7 +231,7 @@ public final class CustomerConnector {
         return true;
     }
 
-    public boolean deleteCustomer(Integer Username) {
+    public boolean deleteAlbum(Integer AlbumID) {
 
         PreparedStatement stmt =
                 null;
@@ -259,9 +245,9 @@ public final class CustomerConnector {
 // The rest of the code for querying the db goes here.
 
             // Execute an SQL non-query, dont get a result set
-            String qryString = "DELETE FROM Customer WHERE Username = ?";
+            String qryString = "DELETE FROM Album WHERE AlbumID = ?";
             stmt = getCon().prepareStatement(qryString);
-            stmt.setInt(1, Username);
+            stmt.setInt(1, AlbumID);
             stmt.executeUpdate();
 
         } catch (SQLException e) {

@@ -2,12 +2,12 @@ package MP3Store.Models;
 
 import MP3Store.Connectors.CustomerConnector;
 import java.io.Serializable;
-
+import java.util.Date;
 /**
  * @author james
  */
 public class CustomerStore implements Serializable {
-    private String customerSince;
+    private Date customerSince;
     private static final long serialVersionUID = 1L;
     private String Username;
     private String customerForename;
@@ -67,7 +67,7 @@ public class CustomerStore implements Serializable {
         return success;
     }
 
-    public CustomerStore(String Username, String customerForename, String customerSurname, String customerTitle, String customerEmail, String customerAddress, String customerSince, boolean verified, int membershipType, String password) {
+    public CustomerStore(String Username, String customerForename, String customerSurname, String customerTitle, String customerEmail, String customerAddress, Date customerSince, boolean verified, int membershipType, String password) {
         this.Username = Username;
         this.customerForename = customerForename;
         this.customerSurname = customerSurname;
@@ -176,11 +176,11 @@ public class CustomerStore implements Serializable {
         return "MP3Store.Customer[ Username=" + Username + " ]";
     }
 
-    public String getCustomerSince() {
+    public Date getCustomerSince() {
         return customerSince;
     }
 
-    public void setCustomerSince(String customerSince) {
+    public void setCustomerSince(Date customerSince) {
         this.customerSince = customerSince;
     }
     

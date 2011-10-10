@@ -1,6 +1,6 @@
 package MP3Store.Connectors;
 
-import MP3Store.Models.CustomerStore;
+import MP3Store.Models.BandStore;
 import MP3Store.Util.DatabaseInformationStore;
 import java.sql.*;
 import java.util.ArrayList;
@@ -9,12 +9,12 @@ import java.util.ArrayList;
  *
  * @author James
  */
-public final class CustomerConnector {
+public final class BandConnector {
 
     private Connection con =
             null;
 
-    public CustomerConnector() {
+    public BandConnector() {
         con = connectToDB();
     }
 
@@ -63,30 +63,25 @@ public final class CustomerConnector {
         return true;
     }
 
-    public boolean updateCustomer(CustomerStore newCustomer) {
+    public boolean updateBand(BandStore newBand) {
 
         PreparedStatement stmt =
                 null;
         try {
             
-            if (con == null)
+                        if (con == null)
             {
                 con = connectToDB();
             }
 
 // Execute an SQL non-query, dont get a result set. Note used of prepared, paramaterised statement here
 
-            String qryString = "UPDATE Customer SET CustomerForename=?,CustomerSurname=?,CustomerTitle=?,CustomerEmail=?,CustomerAddress=?,Verified=?,MembershipType=?,Password=? WHERE Username=?";
+            String qryString = "UPDATE Band SET BandManager=?,BandName=?,BandDesc,BandGenre=? WHERE BandID=?";
             stmt = getCon().prepareStatement(qryString);
-            stmt.setString(1, newCustomer.getCustomerForename());
-            stmt.setString(2, newCustomer.getCustomerSurname());
-            stmt.setString(3, newCustomer.getCustomerTitle());
-            stmt.setString(4, newCustomer.getCustomerEmail());
-            stmt.setString(5, newCustomer.getCustomerAddress());
-            stmt.setBoolean(6, newCustomer.getVerified());
-            stmt.setInt(7, newCustomer.getMembershipType());
-            stmt.setString(8, newCustomer.getPassword());
-            stmt.setString(9, newCustomer.getUsername());
+            stmt.setString(1, newBand.getBandManager());
+            stmt.setString(2, newBand.getBandName());
+            stmt.setString(3, newBand.getBandDesc());
+            stmt.setInt(4, newBand.getBandGenre());
             stmt.executeUpdate();
         } catch (SQLException e) {
             // Handle errors with the connection
@@ -100,8 +95,8 @@ public final class CustomerConnector {
         return false;
     }
 
-    public ArrayList<CustomerStore> getAllCustomers() {
-        ArrayList<CustomerStore> foundCustomer = new ArrayList<CustomerStore>();
+    public ArrayList<BandStore> getAllBands() {
+        ArrayList<BandStore> foundBand = new ArrayList<BandStore>();
 
         PreparedStatement stmt =
                 null;
@@ -114,34 +109,28 @@ public final class CustomerConnector {
                 con = connectToDB();
             }
 
-// Execute an SQL query to show all Customers, giving us a ResultSet.
+// Execute an SQL query to show all Bands, giving us a ResultSet.
 
-            String qryString = "SELECT Username,CustomerForename,CustomerSurname,CustomerTitle,CustomerEmail,CustomerAddress,CustomerSince,Verified,MembershipType,Password FROM Customer";
+            String qryString = "SELECT BandID,BandManager,BandName,BandDesc,BandGenre FROM Band";
             stmt = getCon().prepareStatement(qryString);
 
             rs =
                     stmt.executeQuery();
             while (rs.next()) {
-                CustomerStore tmpCustomer = new CustomerStore();
+                BandStore tmpBand = new BandStore();
 
-                tmpCustomer.setUsername(rs.getString("Username"));
-                tmpCustomer.setCustomerForename(rs.getString("CustomerForename"));
-                tmpCustomer.setCustomerSurname(rs.getString("CustomerSurname"));
-                tmpCustomer.setCustomerTitle(rs.getString("CustomerTitle"));
-                tmpCustomer.setCustomerEmail(rs.getString("CustomerEmail"));
-                tmpCustomer.setCustomerAddress(rs.getString("CustomerAddress"));
-                tmpCustomer.setCustomerSince(rs.getTimestamp("CustomerSince"));
-                tmpCustomer.setVerified(rs.getBoolean("Verified"));
-                tmpCustomer.setMembershipType(rs.getInt("MembershipType"));
-                tmpCustomer.setPassword(rs.getString("Password"));
-
-                // Add this Customer to list of returned Customers
-                foundCustomer.add(tmpCustomer);
+                tmpBand.setBandID(rs.getInt("BandID"));
+                tmpBand.setBandManager(rs.getString("BandManager"));
+                tmpBand.setBandName(rs.getString("BandName"));
+                tmpBand.setBandDesc(rs.getString("BandDesc"));
+                tmpBand.setBandGenre(rs.getInt("BandGenre"));
+                // Add this Band to list of returned Bands
+                foundBand.add(tmpBand);
             }
 
         } catch (SQLException e) {
             // Handle errors with the connection
-            System.out.println("SQLException caught in getAllCustomers(): "
+            System.out.println("SQLException caught in getAllBands(): "
                     + e.getMessage());
             return null;
         } finally {
@@ -149,43 +138,38 @@ public final class CustomerConnector {
             disconnectFromDB(getCon()); // Use helper method
         }
 
-        return foundCustomer;
+        return foundBand;
     }
 
-    public CustomerStore getCustomer(String Username) {
-        CustomerStore foundCustomer = new CustomerStore();
+    public BandStore getBand(int BandID) {
+        BandStore foundBand = new BandStore();
 
         PreparedStatement stmt =
                 null;
         ResultSet rs =
                 null;
         try {
-// Execute an SQL query to show a specific Customers, giving us a ResultSet. Note used of prepared, paramaterised statement here.
-
+            
                         if (con == null)
             {
                 con = connectToDB();
             }
-                        
-            String qryString = "SELECT Username,CustomerForename,CustomerSurname,CustomerTitle,CustomerEmail,CustomerAddress,CustomerSince,Verified,MembershipType,Password FROM Customer WHERE Username = ?";
+// Execute an SQL query to show a specific Bands, giving us a ResultSet. Note used of prepared, paramaterised statement here.
+
+            String qryString = "SELECT BandID,BandManager,BandName,BandDesc,BandGenre FROM Band WHERE BandID = ?";
             stmt = getCon().prepareStatement(qryString);
-            stmt.setString(1, Username);
+            stmt.setInt(1, BandID);
 
             // TODO: test
             rs =
                     stmt.executeQuery();
             rs.first();
 
-            foundCustomer.setUsername(rs.getString("Username"));
-            foundCustomer.setCustomerForename(rs.getString("CustomerForename"));
-            foundCustomer.setCustomerSurname(rs.getString("CustomerSurname"));
-            foundCustomer.setCustomerTitle(rs.getString("CustomerTitle"));
-            foundCustomer.setCustomerEmail(rs.getString("CustomerEmail"));
-            foundCustomer.setCustomerAddress(rs.getString("CustomerAddress"));
-            foundCustomer.setCustomerSince(rs.getTimestamp("CustomerSince"));
-            foundCustomer.setVerified(rs.getBoolean("Verified"));
-            foundCustomer.setMembershipType(rs.getInt("MembershipType"));
-            foundCustomer.setPassword(rs.getString("Password"));
+                foundBand.setBandID(rs.getInt("BandID"));
+                foundBand.setBandManager(rs.getString("BandManager"));
+                foundBand.setBandName(rs.getString("BandName"));
+                foundBand.setBandDesc(rs.getString("BandDesc"));
+                foundBand.setBandGenre(rs.getInt("BandGenre"));
 
         } catch (SQLException e) {
             // Handle errors with the connection
@@ -198,10 +182,10 @@ public final class CustomerConnector {
             disconnectFromDB(getCon()); // Use helper method
         }
 
-        return foundCustomer;
+        return foundBand;
     }
 
-    public boolean insertCustomer(CustomerStore newCustomer) {
+    public boolean insertBand(BandStore newBand) {
 
         PreparedStatement stmt =
                 null;
@@ -216,20 +200,15 @@ public final class CustomerConnector {
 
             // Execute an SQL non-query, dont get a result set
 
-            String qryString = "INSERT INTO Customer (Username,CustomerForename,CustomerSurname,CustomerTitle,CustomerEmail,CustomerAddress,CustomerSince,Verified,MembershipType,Password)"
-                    + " VALUES (?,?,?,?,?,?,?,?,?,?)";
+            String qryString = "INSERT INTO Band (BandID,BandManager,BandName,BandDesc,BandGenre)"
+                    + " VALUES (?,?,?,?,?)";
 
             stmt = getCon().prepareStatement(qryString);
-            stmt.setString(1, newCustomer.getUsername());
-            stmt.setString(2, newCustomer.getCustomerForename());
-            stmt.setString(3, newCustomer.getCustomerSurname());
-            stmt.setString(4, newCustomer.getCustomerTitle());
-            stmt.setString(5, newCustomer.getCustomerEmail());
-            stmt.setString(6, newCustomer.getCustomerAddress());
-            stmt.setNull(7, java.sql.Types.TIMESTAMP);
-            stmt.setBoolean(8, newCustomer.getVerified());
-            stmt.setInt(9, newCustomer.getMembershipType());
-            stmt.setString(10, newCustomer.getPassword());
+            stmt.setNull(1, java.sql.Types.INTEGER);
+            stmt.setString(2, newBand.getBandManager());
+            stmt.setString(3, newBand.getBandName());
+            stmt.setString(4, newBand.getBandDesc());
+            stmt.setInt(5, newBand.getBandGenre());
 
             stmt.executeUpdate();
 
@@ -245,7 +224,7 @@ public final class CustomerConnector {
         return true;
     }
 
-    public boolean deleteCustomer(Integer Username) {
+    public boolean deleteBand(Integer BandID) {
 
         PreparedStatement stmt =
                 null;
@@ -259,9 +238,9 @@ public final class CustomerConnector {
 // The rest of the code for querying the db goes here.
 
             // Execute an SQL non-query, dont get a result set
-            String qryString = "DELETE FROM Customer WHERE Username = ?";
+            String qryString = "DELETE FROM Band WHERE BandID = ?";
             stmt = getCon().prepareStatement(qryString);
-            stmt.setInt(1, Username);
+            stmt.setInt(1, BandID);
             stmt.executeUpdate();
 
         } catch (SQLException e) {
