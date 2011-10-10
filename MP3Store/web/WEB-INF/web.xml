@@ -16,6 +16,10 @@
         <servlet-name>MembershipType</servlet-name>
         <servlet-class>MP3Store.Servlets.Admin.MembershipType</servlet-class>
     </servlet>
+            <servlet>
+        <servlet-name>Band</servlet-name>
+        <servlet-class>MP3Store.Servlets.Admin.Band</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Customer1</servlet-name>
         <url-pattern>/admin/Customer</url-pattern>
@@ -31,6 +35,10 @@
     <servlet-mapping>
         <servlet-name>MembershipType</servlet-name>
         <url-pattern>/admin/MembershipType</url-pattern>
+    </servlet-mapping>
+        <servlet-mapping>
+        <servlet-name>Band</servlet-name>
+        <url-pattern>/admin/Band</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

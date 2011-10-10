@@ -4,8 +4,8 @@
  */
 package MP3Store.Servlets.Admin;
 
-import MP3Store.Connectors.CustomerConnector;
-import MP3Store.Models.CustomerStore;
+import MP3Store.Connectors.BandConnector;
+import MP3Store.Models.BandStore;
 import MP3Store.Util.AdminLoginHelper;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -20,7 +20,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author james
  */
-public class Customer extends HttpServlet {
+public class Band extends HttpServlet {
 
     /**
      * Handles the HTTP
@@ -36,12 +36,12 @@ public class Customer extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        CustomerConnector myCustConn = new CustomerConnector();
+        BandConnector myBandConn = new BandConnector();
 
         try {
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>MP3Store Admin Area -Customers</title>");
+            out.println("<title>MP3Store Admin Area - Bands</title>");
                          out.println("<link rel=\"stylesheet\" type=\"text/css\" href=\"../style.css\" />");
             out.println("</head>");
             out.println("<body>");
@@ -52,51 +52,48 @@ public class Customer extends HttpServlet {
             if (session.getAttribute("Username") != null) {
                 if (AdminLoginHelper.verifyUsername(session.getAttribute("Username").toString())) {
 
-                    out.println("<h1>MP3Store Admin Area - Customer Servlet</h1>");
+                    out.println("<h1>MP3Store Admin Area - Band Servlet</h1>");
 
-                    // Details for just one customer - TODO: Customer not found message
-                    if (request.getParameter("Username") != null) {
-                        CustomerStore customerDetails = myCustConn.getCustomer(request.getParameter("Username"));
-                        if (customerDetails != null) {
+                    // Details for just one Band - TODO: Band not found message
+                    if (request.getParameter("BandID") != null) {
+                        BandStore BandDetails = myBandConn.getBand(Integer.parseInt(request.getParameter("BandID")));
+                        if (BandDetails != null) {
                             out.println("<ul>");
-                            out.println("<li><u><b>#</b>" + customerDetails.getUsername() + "</u></li>");
-                            out.println("<li><b>" + customerDetails.getCustomerTitle() + " " + customerDetails.getCustomerForename() + " " + customerDetails.getCustomerSurname() + "</b></li>");
-                            out.println("<li><b>Email / Password: </b><u>" + customerDetails.getCustomerEmail() + "</u>, '" + customerDetails.getPassword() + "'</li>");
-                            out.println("<li><b>Membership type: </b>" + customerDetails.getMembershipType() + ". <b>Verified: </b>" + customerDetails.getVerified() + "</li>");
-                            out.println("<li><b>Address: </b><i>" + customerDetails.getCustomerAddress() + "</i></li>");
-                            out.println("<li><b>CustomerSince: </b><i>" + customerDetails.getCustomerSince() + "</i></li>");
+                            out.println("<li><u><b>Band #" + BandDetails.getBandID() + " - " + BandDetails.getBandName() + "</b></u></li>");
+                            out.println("<li><b>Band Manager: </b><i>" + BandDetails.getBandManager() + "</i></li>");
+                            out.println("<li><b>Band Genre: </b><i>" + BandDetails.getBandGenre() + "</i></li>");
+                            out.println("<li><b>Band Description: </b><i>" + BandDetails.getBandDesc() + "</i></li>");
                             out.println("</ul>");
-                            out.println("<form name=\"delete\" action=\"/MP3Store/admin/Customer\" method=\"POST\"><input type=\"hidden\" name=\"Username\" value=\"" + customerDetails.getUsername() + "\"><input type=\"hidden\" name=\"Mode\" value=\"DELETE\"><input type=\"submit\" value=\"Delete Customer\" /></form>");
-                            out.println("<u><b><a href=\"/MP3Store/admin/editCustomer.jsp?Username=" + customerDetails.getUsername() + "\">Edit Customer</a></b></u><br />");
+                            out.println("<form name=\"delete\" action=\"/MP3Store/admin/Band\" method=\"POST\"><input type=\"hidden\" name=\"BandID\" value=\"" + BandDetails.getBandID() + "\"><input type=\"hidden\" name=\"Mode\" value=\"DELETE\"><input type=\"submit\" value=\"Delete Band\" /></form>");
+                            out.println("<u><b><a href=\"/MP3Store/admin/editBand.jsp?BandID=" + BandDetails.getBandID() + "\">Edit Band</a></b></u><br />");
                         } else {
-                            out.println("<h3>No Customer found with this ID!</h3>");
+                            out.println("<h3>No Band found with this ID!</h3>");
                         }
-                    } else // Details for all customers
+                    } else // Details for all Bands
                     {
                         out.println("<ol>");
 
-                        ArrayList<CustomerStore> allCustsList = new ArrayList<CustomerStore>();
-                        allCustsList = myCustConn.getAllCustomers();
+                        ArrayList<BandStore> allBandsList = new ArrayList<BandStore>();
+                        allBandsList = myBandConn.getAllBands();
 
-                        if (!allCustsList.isEmpty()) {
-// Display all customers using forach
-                            for (CustomerStore i : allCustsList) {
+                        if (!allBandsList.isEmpty()) {
+// Display all Bands using forach
+                            for (BandStore i : allBandsList) {
                                 out.println("<li>");
                                 out.println("<ul>");
-                                out.println("<li><u><a href=\"/MP3Store/admin/Customer?Username=" + i.getUsername() + "\"> <b>#</b>" + i.getUsername() + "</u></a></li>");
-                                out.println("<li><b>" + i.getCustomerTitle() + " " + i.getCustomerForename() + " " + i.getCustomerSurname() + "</b></li>");
-                                out.println("<li><b>Email / Password: </b><u>" + i.getCustomerEmail() + "</u>, '" + i.getPassword() + "'</li>");
-                                out.println("<li><b>Membership type: </b>" + i.getMembershipType() + ". <b>Verified: </b>" + i.getVerified() + "</li>");
-                                out.println("<li><B>Address: </b><i>" + i.getCustomerAddress() + "</i></li>");
-                                out.println("<li><b>CustomerSince: </b><i>" + i.getCustomerSince() + "</i></li>");
+                                out.println("<li><u><a href=\"/MP3Store/admin/Band?BandID=" + i.getBandID() + "\"> <b>Band #</b>" + i.getBandID() + " - " + i.getBandName() + "</u></a></li>");
+                                out.println("<li><b>" + i.getBandName() + "</b></li>");
+                                out.println("<li><b>Band Manager: </b><i>" + i.getBandManager() + "</i></li>");
+                                out.println("<li><b>Band Genre: </b><i>" + i.getBandGenre() + "</i></li>");
+                                out.println("<li><B>Band Description: </b><i>" + i.getBandDesc() + "</i></li>");
                                 out.println("</ul>");
                                 out.println("</li>");
                             }
                             out.println("</ol>");
                         } else {
-                            out.println("<h3>No Customers found!</h3>");
+                            out.println("<h3>No Bands found!</h3>");
                         }
-                        out.println("<u><b><a href=\"/MP3Store/admin/addCustomer.jsp\">Add Customer</a></b></u><br />");
+                        out.println("<u><b><a href=\"/MP3Store/admin/addBand.jsp\">Add Band</a></b></u><br />");
                     }
                     out.println("<u><b><a href=\"/MP3Store/admin/index.jsp\">Back to Administration Homepage</a></b></u>");
                 } else {
@@ -130,7 +127,7 @@ public class Customer extends HttpServlet {
         try {
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>MP3Store Admin Area -Customers</title>");
+            out.println("<title>MP3Store Admin Area -Bands</title>");
                          out.println("<link rel=\"stylesheet\" type=\"text/css\" href=\"../style.css\" />");
             out.println("</head>");
             out.println("<body>");
@@ -141,51 +138,38 @@ public class Customer extends HttpServlet {
             if (session.getAttribute("Username") != null) {
                 if (AdminLoginHelper.verifyUsername(session.getAttribute("Username").toString())) {
 
-
-                    out.println("<h1>MP3Store Admin Area - Customer Servlet at: " + request.getContextPath() + "</h1>");
+                    out.println("<h1>MP3Store Admin Area - Band Servlet at: " + request.getContextPath() + "</h1>");
 
                     if (request.getParameter("Mode") != null) {
                         if (request.getParameter("Mode").equalsIgnoreCase("DELETE")) {
-                            out.println("<b>Deleting Customer.....</b>");
+                            out.println("<b>Deleting Band.....</b>");
                             doDelete(request, response);
                         } else if (request.getParameter("Mode").equalsIgnoreCase("PUT")) {
-                            out.println("<b>Adding New Customer.....</b>");
+                            out.println("<b>Adding New Band.....</b>");
                             doPut(request, response);
                         } else {
-                            // TODO: Secure the editing functionality
-                            if (request.getParameter("Username") != null && request.getParameter("Title") != null && request.getParameter("Forename") != null && request.getParameter("Surname") != null && request.getParameter("Adddress") != null && request.getParameter("Email") != null && request.getParameter("Password") != null) {
-                                CustomerConnector myCustConn = new CustomerConnector();
-                                CustomerStore editedCustomer = new CustomerStore();
-                                editedCustomer.setUsername(request.getParameter("Username"));
-                                editedCustomer.setCustomerTitle(request.getParameter("Title"));
-                                editedCustomer.setCustomerForename(request.getParameter("Forename"));
-                                editedCustomer.setCustomerSurname(request.getParameter("Surname"));
-                                editedCustomer.setCustomerAddress(request.getParameter("Adddress"));
-                                editedCustomer.setCustomerEmail(request.getParameter("Email"));
-                                editedCustomer.setPassword(request.getParameter("Password"));
-                                editedCustomer.setMembershipType(Integer.parseInt(request.getParameter("MembershipType")));
-
-                                if (request.getParameter("Verified").equals("1")) {
-                                    editedCustomer.setVerified(true);
-                                } else {
-                                    editedCustomer.setVerified(false);
-                                }
-                                out.println("<b>Updating Customer Details....</b>");
-                                myCustConn.updateCustomer(editedCustomer);
-                                out.println("<b>Customer Updated!</b>");
+                            if (request.getParameter("BandID") != null && request.getParameter("BandManager") != null && request.getParameter("BandName") != null && request.getParameter("BandDesc") != null && request.getParameter("BandGenre") != null) {
+                                BandConnector myBandConn = new BandConnector();
+                                BandStore editedBand = new BandStore();
+                                editedBand.setBandID(Integer.parseInt(request.getParameter("BandID")));
+                                editedBand.setBandManager(request.getParameter("BandManager"));
+                                editedBand.setBandName(request.getParameter("BandName"));
+                                editedBand.setBandDesc(request.getParameter("BandDesc"));
+                                editedBand.setBandDesc(request.getParameter("BandGenre"));
+                                out.println("<b>Updating Band Details....</b>");
+                                myBandConn.updateBand(editedBand);
+                                out.println("<b>Band Updated!</b>");
                             }
                         }
 
                     }
                     out.println("<u><b><a href=\"/MP3Store/admin/index.jsp\">Back to Administration Homepage</a></b></u>");
-
                 } else {
                     out.println("<h3>Authentication Error!</h3>");
                 }
             } else {
                 out.println("<h3>Please <a href=\"/MP3Store/admin/index.jsp\">Login!</a></h3>");
             }
-
         } catch (Exception e) {
             out.println("<h3>Sorry, there was an error!</h3>");
             System.out.println("Exception in doPost()" + e.toString());
@@ -212,7 +196,7 @@ public class Customer extends HttpServlet {
         try {
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>MP3Store Admin Area -Customers</title>");
+            out.println("<title>MP3Store Admin Area -Bands</title>");
                          out.println("<link rel=\"stylesheet\" type=\"text/css\" href=\"../style.css\" />");
             out.println("</head>");
             out.println("<body>");
@@ -223,14 +207,12 @@ public class Customer extends HttpServlet {
             if (session.getAttribute("Username") != null) {
                 if (AdminLoginHelper.verifyUsername(session.getAttribute("Username").toString())) {
 
+                    out.println("<h1>MP3Store Admin Area - Band Servlet at: " + request.getContextPath() + "</h1>");
 
-                    out.println("<h1>MP3Store Admin Area - Customer Servlet at: " + request.getContextPath() + "</h1>");
-
-                    //  Process customer registration form. TODO: DANGER! - More validation!
-                    CustomerConnector myCustConn = new CustomerConnector();
-                    if (request.getParameter("Username") != null && request.getParameter("Title") != null && request.getParameter("Forename") != null && request.getParameter("Surname") != null && request.getParameter("Adddress") != null && request.getParameter("Email") != null && request.getParameter("Password") != null) {
-                        myCustConn.insertCustomer(new CustomerStore(request.getParameter("Username"), request.getParameter("Forename"), request.getParameter("Surname"), request.getParameter("Title"), request.getParameter("Email"), request.getParameter("Adddress"), null, false, 0, request.getParameter("Password")));
-                        out.println("<b>Customer Added!</b>");
+                    BandConnector myBandConn = new BandConnector();
+                    if (request.getParameter("BandManager") != null && request.getParameter("BandName") != null && request.getParameter("BandDesc") != null && request.getParameter("BandGenre") != null) {
+                        myBandConn.insertBand(new BandStore(0, request.getParameter("BandManager"), request.getParameter("BandName"),request.getParameter("BandDesc"),Integer.parseInt(request.getParameter("BandGenre"))));
+                        out.println("<b>Band Added!</b>");
                     }
                 } else {
                     out.println("<h3>Authentication Error!</h3>");
@@ -263,24 +245,25 @@ public class Customer extends HttpServlet {
         try {
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>MP3Store Admin Area -Customers</title>");
+            out.println("<title>MP3Store Admin Area -Bands</title>");
                          out.println("<link rel=\"stylesheet\" type=\"text/css\" href=\"../style.css\" />");
             out.println("</head>");
             out.println("<body>");
 
             // Verify user
             HttpSession session = request.getSession();
+
             if (session.getAttribute("Username") != null) {
                 if (AdminLoginHelper.verifyUsername(session.getAttribute("Username").toString())) {
 
-                    out.println("<h1>MP3Store Admin Area - Customer Servlet at: " + request.getContextPath() + "</h1>");
 
-                    CustomerConnector myCustConn = new CustomerConnector();
-                    if (request.getParameter("Username") != null) {
-                        myCustConn.deleteCustomer(Integer.parseInt(request.getParameter("Username")));
-                        out.println("<b>Customer Deleted!</b>");
+                    out.println("<h1>MP3Store Admin Area - Band Servlet at: " + request.getContextPath() + "</h1>");
+
+                    BandConnector myBandConn = new BandConnector();
+                    if (request.getParameter("BandID") != null) {
+                        myBandConn.deleteBand(Integer.parseInt(request.getParameter("BandID")));
+                        out.println("<b>Band Deleted!</b>");
                     }
-
                 } else {
                     out.println("<h3>Authentication Error!</h3>");
                 }

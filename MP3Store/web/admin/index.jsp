@@ -50,8 +50,13 @@
         %>
 
         <h1>MP3Store Admin Area</h1>
+        <h3>User Administration</h3>
         <ul>
             <li><u><b><a href="/MP3Store/admin/Customer">Customer Administration</a></b></u> </li>
+            <li><u><b><a href="/MP3Store/admin/Band">Band Administration</a></b></u> </li>
+        </ul>
+         <h3>Lookup-Table Administration</h3>
+         <ul>
         <li><u><b><a href="/MP3Store/admin/Genre">Add/Edit Music Genres</a></b></u> </li>
     <li><u><b><a href="/MP3Store/admin/MembershipType">Add/Edit Membership Types</a></b></u> </li>
         </ul>
